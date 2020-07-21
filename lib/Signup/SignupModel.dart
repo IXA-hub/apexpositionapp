@@ -1,0 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+
+class emailSignUpModel extends ChangeNotifier {
+  String email = null;
+  String password = null;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future emaiSignUp() async {
+    if (email.isEmpty) {
+      throw ('Emailを入力してください');
+    }
+
+    if (password.isEmpty) {
+      throw ('passwordを入力してください');
+    }
+
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    ))
+        .user;
+    //.userのemailを取得
+    final UserEmail = user.email;
+
+    Firestore.instance.collection('users').add(
+      {
+        'Email': UserEmail,
+        'createdAt': Timestamp.now(),
+      },
+    );
+  }
+}
+
+
+class emailSignInModel extends ChangeNotifier {
+  String email = '';
+  String password = '';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future emailSignIn() async {
+    if(email.isEmpty){
+      throw('メールアドレスを入力してください');
+    }
+    if(password.isEmpty){
+      throw('パスワードを入力してください');
+    }
+
+    await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+}
