@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class Apex_dataModel extends ChangeNotifier {
-  List<Apex_data> apex_data = [];
+  List<Apex_data> apex_datas = [];
 
   Future fetchApex_data() async {
     final docs = await Firestore.instance.collection('Apex_Demodata').getDocuments();
-    final apexdata = docs.documents.map((doc) => Apex_data(doc)).toList();
-    this.apex_data = apexdata;
+    final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+    this.apex_datas = apexdatas;
     notifyListeners();
   }
 

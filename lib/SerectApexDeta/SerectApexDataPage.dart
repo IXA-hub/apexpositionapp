@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'SerectApexDataModel.dart';
 
-class MainServisePage extends StatelessWidget {
+class SerectApexDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Apex_dataModel>(
@@ -17,9 +17,9 @@ class MainServisePage extends StatelessWidget {
         ),
         // ignore: missing_return
         body: Consumer<Apex_dataModel>(builder: (context, model, child) {
-          final apexData = model.apex_data;
+          final apexDatas = model.apex_datas;
           final listTiles =
-          apexData.map((Apex_data) =>
+          apexDatas.map((Apex_data) =>
               ListTile(
                 title: Text(Apex_data.title),
                 trailing: IconButton(

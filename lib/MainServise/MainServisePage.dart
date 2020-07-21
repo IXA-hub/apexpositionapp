@@ -1,4 +1,4 @@
-import 'package:apexpositionapp/bool_list/bookListPage.dart';
+import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class _BottomNavBarState extends State<MainServisePage> {
   GlobalKey _bottomNavigationKey = GlobalKey();
 
   final _pageWidgets = [
-    BookListPage(),
+    SerectApexDataPage(),
     _body(),
     _body(),
   ];
