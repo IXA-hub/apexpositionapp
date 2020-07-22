@@ -1,4 +1,5 @@
 import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
+import 'package:apexpositionapp/Sort/SortPage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _BottomNavBarState extends State<MainServisePage> {
 
   final _pageWidgets = [
     SerectApexDataPage(),
-    _body(),
+    SortSettingPage(),
     _body(),
   ];
 
@@ -31,10 +32,10 @@ class _BottomNavBarState extends State<MainServisePage> {
           Icon(Icons.list, size: 30),
           Icon(Icons.compare_arrows, size: 30),
         ],
-        color: Colors.white,
-        buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.blueAccent,
-        animationCurve: Curves.easeInOut,
+        color: Colors.lightBlueAccent,
+        buttonBackgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.white,
+        animationCurve: Curves.bounceInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (index) {
           setState(() {
@@ -50,7 +51,7 @@ class _body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueAccent,
+      color: Colors.white,
       child: Center(
         child: Column(
           children: <Widget>[

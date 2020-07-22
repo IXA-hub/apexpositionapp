@@ -12,9 +12,6 @@ class SerectApexDataPage extends StatelessWidget {
       Apex_dataModel()
         ..fetchApex_data(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('firestoreのModel'),
-        ),
         // ignore: missing_return
         body: Consumer<Apex_dataModel>(builder: (context, model, child) {
           final apexDatas = model.apex_datas;
