@@ -1,3 +1,5 @@
+import 'package:apexpositionapp/Book_list/Book_List_page.dart';
+import 'package:apexpositionapp/EmailSender/EmailSenderPage.dart';
 import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
 import 'package:apexpositionapp/Sort/SortPage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -16,7 +18,7 @@ class _BottomNavBarState extends State<MainServisePage> {
   final _pageWidgets = [
     SerectApexDataPage(),
     SortSettingPage(),
-    _body(),
+    BookListPage(),
   ];
 
   @override
@@ -26,7 +28,7 @@ class _BottomNavBarState extends State<MainServisePage> {
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         index: 0,
-        height: 50.0,
+        height: 75.0,
         items: <Widget>[
           Icon(Icons.add, size: 30),
           Icon(Icons.list, size: 30),
@@ -35,7 +37,7 @@ class _BottomNavBarState extends State<MainServisePage> {
         color: Colors.lightBlueAccent,
         buttonBackgroundColor: Colors.lightBlueAccent,
         backgroundColor: Colors.white,
-        animationCurve: Curves.bounceInOut,
+        animationCurve: Curves.ease,
         animationDuration: Duration(milliseconds: 600),
         onTap: (index) {
           setState(() {
@@ -47,24 +49,3 @@ class _BottomNavBarState extends State<MainServisePage> {
   }
 }
 
-class _body extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text('', textScaleFactor: 10.0),
-            RaisedButton(
-              child: Text('Go To Page of index 1'),
-              onPressed: () {
-
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

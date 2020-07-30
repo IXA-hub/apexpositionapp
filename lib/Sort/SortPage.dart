@@ -114,7 +114,7 @@ class SortSettingPage extends StatelessWidget{
                             activeFgColor: Colors.white,
                             inactiveBgColor: Colors.grey,
                             inactiveFgColor: Colors.white,
-                            labels: ['Male', 'Female'],
+                            labels: ['OFF', 'ON'],
                             activeBgColors: [Colors.blue, Colors.pink],
                             onToggle: (index) {
                               print('switched to: $index');
@@ -135,7 +135,7 @@ class SortSettingPage extends StatelessWidget{
                             activeFgColor: Colors.white,
                             inactiveBgColor: Colors.grey,
                             inactiveFgColor: Colors.white,
-                            labels: ['Male', 'Female'],
+                            labels: ['OFF', 'ON'],
                             activeBgColors: [Colors.blue, Colors.pink],
                             onToggle: (index) {
                               print('switched to: $index');
