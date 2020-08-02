@@ -119,10 +119,6 @@ class SignupPage extends StatelessWidget {
                               onTap: () async{
                                 try {
                                   await model.emaiSignUp();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => MainServisePage()),
-                                  );
                                 }catch(e){
                                   _showDialog(context,'このユーザーは既に使用されています...');
                                 }
