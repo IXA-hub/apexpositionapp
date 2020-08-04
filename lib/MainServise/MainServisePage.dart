@@ -1,7 +1,8 @@
-import 'package:apexpositionapp/Book_list/Book_List_page.dart';
+import 'package:apexpositionapp/Account/AcccountPage.dart';
 import 'package:apexpositionapp/EmailSender/EmailSenderPage.dart';
 import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
 import 'package:apexpositionapp/Signup/SignupPage.dart';
+import 'package:apexpositionapp/main.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,18 @@ import 'SelectServiceModel.dart';
 
 class MainServicePage extends StatelessWidget {
 
-  final _pageWidgets = [
-    SerectApexDataPage(),
-    SignupPage(),
-    EmailSenderPage(),
-  ];
+  final bool isLogin;
+  MainServicePage(this.isLogin);
 
   @override
   Widget build(BuildContext context) {
+
+    final  _pageWidgets = [
+      SerectApexDataPage(),
+      isLogin ? AccountPage():SignupPage(),
+      EmailSenderPage(),
+    ];
+
     return ChangeNotifierProvider<Selectpage_Model>(
       create: (_) => Selectpage_Model(),
       child: Consumer<Selectpage_Model>(builder: (context,model,child){

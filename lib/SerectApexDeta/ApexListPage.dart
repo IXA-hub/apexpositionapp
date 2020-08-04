@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'ApexListModel.dart';
 
-class BookListPage extends StatelessWidget {
+class ApexListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Apex_ListModel>(

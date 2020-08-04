@@ -1,10 +1,9 @@
-import 'package:apexpositionapp/Book_list/Book_List_page.dart';
 import 'package:apexpositionapp/Sort/SortPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:provider/provider.dart';
-
+import 'ApexListPage.dart';
 import 'SerectApexDataModel.dart';
 
 class SerectApexDataPage extends StatelessWidget {
@@ -12,7 +11,7 @@ class SerectApexDataPage extends StatelessWidget {
   int _page = 0;
 
   final _pageWidgets = [
-    BookListPage(),
+    ApexListPage(),
     SortSettingPage(),
   ];
 
@@ -29,23 +28,21 @@ class SerectApexDataPage extends StatelessWidget {
                 length: 2,
                 child: Scaffold(
                   appBar: GradientAppBar(
-                    title: Text('apex'),
                     gradient: LinearGradient(colors: [Colors.lightBlueAccent, Colors.deepPurpleAccent]),
                     bottom: TabBar(tabs: <Widget>[
                       Tab(
-
-                        icon: IconButton(
-                            icon: Icon(Icons.video_library),
-                            onPressed: (){
+                        child: GestureDetector(
+                            child: Icon(Icons.hd),
+                            onTap: (){
                               model.setPage(0);
                               _page = model.getPage();
                             }
                         ),
                       ),
                       Tab(
-                        icon: IconButton(
-                            icon: Icon(Icons.search),
-                            onPressed: (){
+                        child: GestureDetector(
+                          child: Icon(Icons.hd),
+                            onTap: (){
                               model.setPage(1);
                               _page = model.getPage();
                             }
