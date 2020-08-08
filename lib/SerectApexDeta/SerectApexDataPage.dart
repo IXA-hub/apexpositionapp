@@ -1,10 +1,10 @@
-import 'package:apexpositionapp/Sort/SortPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'ApexListPage.dart';
 import 'SerectApexDataModel.dart';
+import 'Sort.dart';
 
 class SerectApexDataPage extends StatelessWidget {
 
@@ -28,11 +28,12 @@ class SerectApexDataPage extends StatelessWidget {
                 length: 2,
                 child: Scaffold(
                   appBar: GradientAppBar(
+                    title: Text('HidePositionSelect!'),
                     gradient: LinearGradient(colors: [Colors.lightBlueAccent, Colors.deepPurpleAccent]),
                     bottom: TabBar(tabs: <Widget>[
                       Tab(
                         child: GestureDetector(
-                            child: Icon(Icons.hd),
+                            child: Icon(Icons.youtube_searched_for),
                             onTap: (){
                               model.setPage(0);
                               _page = model.getPage();
@@ -41,7 +42,7 @@ class SerectApexDataPage extends StatelessWidget {
                       ),
                       Tab(
                         child: GestureDetector(
-                          child: Icon(Icons.hd),
+                          child: Icon(Icons.library_books),
                             onTap: (){
                               model.setPage(1);
                               _page = model.getPage();

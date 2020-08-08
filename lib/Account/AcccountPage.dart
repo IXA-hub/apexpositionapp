@@ -1,132 +1,55 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:image_picker/image_picker.dart';
-class AccountPage extends StatefulWidget {
+
+class AccountPage extends StatelessWidget {
   @override
-  _AccountPageState createState() => _AccountPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Stack(
+          children: <Widget>[
+            ClipPath(
+              child: Container(color: Colors.blue.withOpacity(0.8)),
+              clipper: getClipper(),
+            ),
+           Container(
+             width: double.infinity,
+             height: 325,
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: <Widget>[
+                 Container(
+                     width: 150.0,
+                     height: 150.0,
+                     decoration: BoxDecoration(
+                         image: DecorationImage(
+                             image: NetworkImage(
+                                 'https://pbs.twimg.com/profile_images/1105680721920704512/sd0mX_52_400x400.png'),
+                             fit: BoxFit.cover),
+                         borderRadius: BorderRadius.all(Radius.circular(75.0)),
+                         boxShadow: [
+                           BoxShadow(blurRadius: 7.0, color: Colors.black)
+                         ])),
+               ],
+             ),
+           ),
+          ],
+        ));
+  }
 }
 
-class _AccountPageState extends State<AccountPage> {
-  List<String> attachments = [];
-  bool isHTML = false;
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
 
-  final _recipientController = TextEditingController(
-    text: 'example@example.com',
-  );
-
-  final _subjectController = TextEditingController(text: 'The subject');
-
-  final _bodyController = TextEditingController(
-    text: 'Mail body.',
-  );
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<void> send() async {
-    final Email email = Email(
-      body: _bodyController.text,
-      subject: _subjectController.text,
-      recipients: [_recipientController.text],
-      attachmentPaths: attachments,
-      isHTML: isHTML,
-    );
-
-    String platformResponse;
-
-    try {
-      await FlutterEmailSender.send(email);
-      platformResponse = 'success';
-    } catch (error) {
-      platformResponse = error.toString();
-    }
-
-    if (!mounted) return;
-
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(platformResponse),
-    ));
+    path.lineTo(0.0, size.height / 1.9);
+    path.lineTo(size.width + 125, 0.0);
+    path.close();
+    return path;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blueAccent),
-      home: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text('Plugin example app'),
-          actions: <Widget>[
-            IconButton(
-              onPressed: send,
-              icon: Icon(Icons.send),
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _recipientController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Recipient',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _subjectController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Subject',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _bodyController,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                        labelText: 'Body', border: OutlineInputBorder()),
-                  ),
-                ),
-                CheckboxListTile(
-                  title: Text('HTML'),
-                  onChanged: (bool value) {
-                    setState(() {
-                      isHTML = value;
-                    });
-                  },
-                  value: isHTML,
-                ),
-                ...attachments.map(
-                      (item) =>
-                      Text(
-                        item,
-                        overflow: TextOverflow.fade,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          icon: Icon(Icons.camera),
-          label: Text('Add Image'),
-        ),
-      ),
-    );
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // TODO: implement shouldReclip
+    return true;
   }
 }

@@ -1,4 +1,5 @@
-import 'package:apexpositionapp/MainServise/MainServisePage.dart';
+import 'package:apexpositionapp/MainServise/SelectServisePage.dart';
+import 'package:apexpositionapp/Signup/SignupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainServicePage(isLogin)
+      home: isLogin ? SelectServicePage() : SignupPage(),
     );
   }
 }

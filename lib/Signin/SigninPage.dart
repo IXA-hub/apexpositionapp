@@ -124,12 +124,18 @@ class SigninPage extends StatelessWidget {
                               onTap: () async {
                                 try {
                                   await model.emailSignIn();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SigninPage(),
+                                    ),
+                                  );
                                 } catch (e) {
                                   _showDialog(context, 'このユーザーは既に使用されています...');
                                 }
                               },
                               child: Center(
-                                  child: Text('SIGN UP',
+                                  child: Text('SIGN IN',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,

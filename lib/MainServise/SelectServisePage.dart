@@ -1,8 +1,6 @@
 import 'package:apexpositionapp/Account/AcccountPage.dart';
-import 'package:apexpositionapp/EmailSender/EmailSenderPage.dart';
 import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
-import 'package:apexpositionapp/Signup/SignupPage.dart';
-import 'package:apexpositionapp/main.dart';
+import 'package:apexpositionapp/SubServise/SubServisePage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,18 +8,15 @@ import 'package:provider/provider.dart';
 
 import 'SelectServiceModel.dart';
 
-class MainServicePage extends StatelessWidget {
-
-  final bool isLogin;
-  MainServicePage(this.isLogin);
+class SelectServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
-    final  _pageWidgets = [
+    final _pageWidgets = [
       SerectApexDataPage(),
-      isLogin ? AccountPage():SignupPage(),
-      EmailSenderPage(),
+      AccountPage(),
+      SubServisePage(),
     ];
 
     return ChangeNotifierProvider<Selectpage_Model>(
@@ -29,7 +24,7 @@ class MainServicePage extends StatelessWidget {
       child: Consumer<Selectpage_Model>(builder: (context,model,child){
         final int _page = model.getPage();
             return Scaffold(
-              body: _pageWidgets.elementAt(_page),
+              body: _pageWidgets[_page],
               bottomNavigationBar: CurvedNavigationBar(
                 index: 0,
                 height: 75.0,

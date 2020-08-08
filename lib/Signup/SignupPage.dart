@@ -1,3 +1,5 @@
+import 'package:apexpositionapp/Account/AcccountPage.dart';
+import 'package:apexpositionapp/Signin/SigninPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -117,6 +119,8 @@ class SignupPage extends StatelessWidget {
                               onTap: () async{
                                 try {
                                   await model.emaiSignUp();
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => AccountPage()));
                                 }catch(e){
                                   _showDialog(context,'このユーザーは既に使用されています...');
                                 }
@@ -136,6 +140,17 @@ class SignupPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.label_important),
+                            onPressed: (){
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SigninPage(),
+                                ),
+                              );
+                            },
+                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Container(
