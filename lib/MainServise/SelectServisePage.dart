@@ -9,10 +9,8 @@ import 'package:provider/provider.dart';
 import 'SelectServiceModel.dart';
 
 class SelectServicePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     final _pageWidgets = [
       SerectApexDataPage(),
       AccountPage(),
@@ -20,18 +18,20 @@ class SelectServicePage extends StatelessWidget {
     ];
 
     return ChangeNotifierProvider<Selectpage_Model>(
-      create: (_) => Selectpage_Model(),
-      child: Consumer<Selectpage_Model>(builder: (context,model,child){
-        final int _page = model.getPage();
+        create: (_) => Selectpage_Model(),
+        child: Consumer<Selectpage_Model>(
+          builder: (context, model, child) {
+            final int _page = model.getPage();
             return Scaffold(
               body: _pageWidgets[_page],
               bottomNavigationBar: CurvedNavigationBar(
                 index: 0,
                 height: 75.0,
                 items: <Widget>[
-                  Icon(Icons.youtube_searched_for, size: 30,color:Colors.white),
-                  Icon(Icons.account_box, size: 30,color:Colors.white),
-                  Icon(Icons.email, size: 30,color:Colors.white),
+                  Icon(Icons.youtube_searched_for,
+                      size: 30, color: Colors.white),
+                  Icon(Icons.account_box, size: 30, color: Colors.white),
+                  Icon(Icons.settings, size: 30, color: Colors.white),
                 ],
                 color: Colors.lightBlueAccent,
                 buttonBackgroundColor: Colors.lightBlueAccent,
@@ -43,8 +43,7 @@ class SelectServicePage extends StatelessWidget {
                 },
               ),
             );
-          },)
-    );
+          },
+        ));
   }
 }
-
