@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
+
 class emailSignUpModel extends ChangeNotifier {
+
+
   String email = null;
   String password = null;
 
@@ -34,23 +37,3 @@ class emailSignUpModel extends ChangeNotifier {
   }
 }
 
-
-class emailSignInModel extends ChangeNotifier {
-  String email = '';
-  String password = '';
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future emailSignIn() async {
-    if(email.isEmpty){
-      throw('メールアドレスを入力してください');
-    }
-    if(password.isEmpty){
-      throw('パスワードを入力してください');
-    }
-
-    await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-}

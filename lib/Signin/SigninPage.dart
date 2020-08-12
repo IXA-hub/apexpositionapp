@@ -1,27 +1,26 @@
-import 'package:apexpositionapp/Account/AcccountPage.dart';
-import 'package:apexpositionapp/Signin/SigninPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:provider/provider.dart';
 
-import 'SignupModel.dart';
+import 'SigninModel.dart';
 
-class SignupPage extends StatelessWidget {
+
+class SigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final emailcontroller = TextEditingController();
     final passwordcontroller = TextEditingController();
 
-    return ChangeNotifierProvider<emailSignUpModel>(
-      create: (_) => emailSignUpModel(),
+    return ChangeNotifierProvider<emailSignInModel>(
+      create: (_) => emailSignInModel(),
       child: (
           //ここから
           Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomPadding: true,
-            body: Consumer<emailSignUpModel>(
+            body: Consumer<emailSignInModel>(
               builder: (context, model, child) {
                 return Center(
                   child: Column(
@@ -56,7 +55,8 @@ class SignupPage extends StatelessWidget {
                               children: <Widget>[
                                 Text("Email",
                                     style: TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold)),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                                 TextField(
                                   decoration:
                                   InputDecoration(hintText: 'example@email'),
@@ -67,9 +67,11 @@ class SignupPage extends StatelessWidget {
                                 ),
                                 Text("Password",
                                     style: TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold)),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                                 TextField(
-                                  decoration: InputDecoration(hintText: 'password'),
+                                  decoration: InputDecoration(
+                                      hintText: 'password'),
                                   controller: passwordcontroller,
                                   onChanged: (text) {
                                     model.password = text;
@@ -105,7 +107,10 @@ class SignupPage extends StatelessWidget {
                           height: 75,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                  colors: [Color(0xFF17ead9), Color(0xFF6078ea)]),
+                                  colors: [
+                                    Color(0xFF17ead9),
+                                    Color(0xFF6078ea)
+                                  ]),
                               borderRadius: BorderRadius.circular(6.0),
                               boxShadow: [
                                 BoxShadow(
@@ -116,17 +121,21 @@ class SignupPage extends StatelessWidget {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 try {
-                                  await model.emaiSignUp();
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => AccountPage()));
-                                }catch(e){
-                                  _showDialog(context,'このユーザーは既に使用されています...');
+                                  await model.emailSignIn();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SigninPage(),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  _showDialog(context, 'このユーザーは既に使用されています...');
                                 }
                               },
                               child: Center(
-                                  child: Text('SIGN UP',
+                                  child: Text('SIGN IN',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -140,17 +149,6 @@ class SignupPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.label_important),
-                            onPressed: (){
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigninPage(),
-                                ),
-                              );
-                            },
-                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Container(
@@ -181,19 +179,17 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Future _showDialog(
-      BuildContext context,
-      String title,
-      ){
+  Future _showDialog(BuildContext context,
+      String title,) {
     showDialog(
       context: context,
-      builder: (BuildContext context){
+      builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
           actions: <Widget>[
             FlatButton(
               child: Text(''),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
@@ -201,6 +197,5 @@ class SignupPage extends StatelessWidget {
         );
       },
     );
-
   }
 }
