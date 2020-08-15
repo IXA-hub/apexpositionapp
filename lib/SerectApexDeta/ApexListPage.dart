@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import 'ApexListModel.dart';
@@ -53,8 +54,10 @@ class ApexListPage extends StatelessWidget {
               return model.isLoading
                   ? Container(
                       child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                          child: SpinKitWave(
+                        color: Colors.blueAccent,
+                        size: 50.0,
+                      )),
                     )
                   : SizedBox();
             },

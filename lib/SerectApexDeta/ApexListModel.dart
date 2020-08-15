@@ -26,6 +26,26 @@ class Apex_ListModel extends ChangeNotifier {
 
   Future fetchApex_data() async {
     startLoading();
+    final docs =
+        await Firestore.instance.collection('Apex_Demodata').getDocuments();
+    final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+    this.apex_datas = apexdatas;
+    notifyListeners();
+    stopLoading();
+  }
+
+  bool SortState = true;
+
+  SortStateChangeTrue() {
+    SortState = true;
+  }
+
+  SortStateChangeFalse() {
+    SortState = false;
+  }
+
+  Future SerchApex_data() async {
+    SortStateChangeFalse();
     final docs = await Firestore.instance
         .collection('Apex_Demodata')
         .where("LobaLimited", isEqualTo: false)
@@ -34,7 +54,7 @@ class Apex_ListModel extends ChangeNotifier {
     final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
     this.apex_datas = apexdatas;
     notifyListeners();
-    stopLoading();
+    SortStateChangeTrue();
   }
 }
 
