@@ -155,6 +155,7 @@ class SortSettingPage extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () async {
                                       await model.SerchApex_data();
+                                      print('実行されてるよ');
                                     },
                                     child: Center(
                                         child: Text('SORT',
