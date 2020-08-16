@@ -8,8 +8,9 @@ import 'ApexListModel.dart';
 class ApexListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Apex_ListModel>(
-      create: (_) => Apex_ListModel()..fetchApex_data(),
+    final Model = Provider.of<Apex_ListModel>(context);
+    return ChangeNotifierProvider.value(
+      value: Model,
       child: Stack(
         children: <Widget>[
           Scaffold(
