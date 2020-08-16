@@ -46,7 +46,28 @@ class SerectApexDataPage extends StatelessWidget {
                         ),
                       ]),
                 ),
-                body: _pageWidgets.elementAt(_page),
+                body: Stack(
+                  children: <Widget>[
+                    Offstage(
+                      offstage: _page != 0,
+                      child: TickerMode(
+                        enabled: _page == 0,
+                        child: MaterialApp(
+                          home: ApexListPage(),
+                        ),
+                      ),
+                    ),
+                    Offstage(
+                      offstage: _page != 1,
+                      child: TickerMode(
+                        enabled: _page == 1,
+                        child: MaterialApp(
+                          home: SortSettingPage(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

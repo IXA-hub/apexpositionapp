@@ -11,19 +11,43 @@ import 'SelectServiceModel.dart';
 class SelectServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _pageWidgets = [
-      SerectApexDataPage(),
-      AccountPage(),
-      SubServisePage(),
-    ];
-
     return ChangeNotifierProvider<Selectpage_Model>(
         create: (_) => Selectpage_Model(),
         child: Consumer<Selectpage_Model>(
           builder: (context, model, child) {
             final int _page = model.getPage();
             return Scaffold(
-              body: _pageWidgets[_page],
+              body: Stack(
+                children: <Widget>[
+                  Offstage(
+                    offstage: _page != 0,
+                    child: TickerMode(
+                      enabled: _page == 0,
+                      child: MaterialApp(
+                        home: SerectApexDataPage(),
+                      ),
+                    ),
+                  ),
+                  Offstage(
+                    offstage: _page != 1,
+                    child: TickerMode(
+                      enabled: _page == 1,
+                      child: MaterialApp(
+                        home: AccountPage(),
+                      ),
+                    ),
+                  ),
+                  Offstage(
+                    offstage: _page != 2,
+                    child: TickerMode(
+                      enabled: _page == 2,
+                      child: MaterialApp(
+                        home: SubServisePage(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               bottomNavigationBar: CurvedNavigationBar(
                 index: 0,
                 height: 75.0,
