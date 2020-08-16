@@ -10,15 +10,10 @@ import 'Sort.dart';
 class SerectApexDataPage extends StatelessWidget {
   int _page = 0;
 
-  final _pageWidgets = [
-    ApexListPage(),
-    SortSettingPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Apex_ListModel>(
-      create: (_) => Apex_ListModel(),
+      create: (_) => Apex_ListModel()..fetchApex_data(),
       // ignore: missing_return
       child: Consumer<Apex_ListModel>(builder: (context, model, child) {
         return Stack(
