@@ -10,61 +10,62 @@ class ApexListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Model = Provider.of<Apex_ListModel>(context);
     return ChangeNotifierProvider.value(
-      value: Model,
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            body: Consumer<Apex_ListModel>(builder: (context, model, child) {
-              final apex_datas = model.apex_datas;
-              final listTiles = apex_datas
-                  .map((apex_data) => Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.blueGrey,
-                                offset: Offset(0.0, 0.0),
-                                blurRadius: 10.0,
-                              ),
-                              BoxShadow(
-                                color: Colors.blueGrey,
-                                offset: Offset(0.0, -0.0),
-                                blurRadius: 10.0,
-                              ),
-                            ],
+        value: Model,
+        child: Consumer<Apex_ListModel>(builder: (context, model, child) {
+          final apex_datas = model.apex_datas;
+          final listTiles = apex_datas
+              .map((apex_data) => Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0,
                           ),
-                          child: ListTile(
-                            title: Text(apex_data.title),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit),
-                            ),
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            offset: Offset(0.0, -0.0),
+                            blurRadius: 10.0,
                           ),
+                        ],
+                      ),
+                      child: ListTile(
+                        title: Text(apex_data.title),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
                         ),
-                      ))
-                  .toList();
-              return ListView(
-                children: listTiles,
-              );
-            }),
-          ),
-          Consumer<Apex_ListModel>(
-            builder: (context, model, child) {
-              return model.isLoading
+                      ),
+                    ),
+                  ))
+              .toList();
+          return Stack(
+            children: [
+              Scaffold(
+                body: ListView(
+                  children: listTiles,
+                ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () async {
+                    await model.SerchApexData();
+                  },
+                ),
+              ),
+              model.isLoading
                   ? Container(
                       child: Center(
-                          child: SpinKitWave(
-                        color: Colors.blueAccent,
-                        size: 50.0,
-                      )),
+                        child: SpinKitWave(
+                          color: Colors.blueAccent,
+                          size: 50.0,
+                        ),
+                      ),
                     )
-                  : SizedBox();
-            },
-          )
-        ],
-      ),
-    );
+                  : SizedBox(),
+            ],
+          );
+        }));
   }
 }

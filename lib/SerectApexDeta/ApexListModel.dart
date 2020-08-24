@@ -13,6 +13,16 @@ class Apex_ListModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  int _page2 = 0;
+  getPage2() {
+    return _page2;
+  }
+
+  setPage2(int x) {
+    _page2 = x;
+    notifyListeners();
+  }
+
   List<Apex_data> apex_datas = [];
   bool isLoading = false;
 
@@ -44,17 +54,92 @@ class Apex_ListModel extends ChangeNotifier {
     SortState = false;
   }
 
-  Future SerchApex_data() async {
-    SortStateChangeFalse();
-    final docs = await Firestore.instance
-        .collection('Apex_Demodata')
-        .where("LobaLimited", isEqualTo: false)
-        .where("pathfinderLimited", isEqualTo: true)
-        .getDocuments();
-    final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-    this.apex_datas = apexdatas;
-    notifyListeners();
-    SortStateChangeTrue();
+  int LobaLimitedState = 0;
+  int pathfinderLimitedState = 0;
+  // ignore: non_constant_identifier_names
+  Future SelectLobaLimitedState(int index) {
+    switch (index) {
+      case 0:
+        LobaLimitedState = index;
+        break;
+      case 1:
+        LobaLimitedState = index;
+        break;
+    }
+  }
+
+  Future SelectpathfinderLimitedState(int index) {
+    switch (index) {
+      case 0:
+        pathfinderLimitedState = index;
+        break;
+      case 1:
+        pathfinderLimitedState = index;
+        break;
+    }
+  }
+
+  int fieldState = 0;
+  Future SelectFieldState(int index) {
+    switch (index) {
+      case 0:
+        fieldState = index;
+        break;
+      case 1:
+        fieldState = index;
+        break;
+      case 2:
+        fieldState = index;
+        break;
+    }
+  }
+
+  Future SerchApexData() async {
+    if (fieldState == 0) {
+      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+        SortStateChangeFalse();
+        final docs =
+            await Firestore.instance.collection('Apex_Demodata').getDocuments();
+        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+        this.apex_datas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      } else {
+        SortStateChangeFalse();
+        final docs = await Firestore.instance
+            .collection('Apex_Demodata')
+            .where("LobaLimited", isEqualTo: LobaLimitedState)
+            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+            .getDocuments();
+        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+        this.apex_datas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      }
+    } else {
+      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+        SortStateChangeFalse();
+        final docs = await Firestore.instance
+            .collection('Apex_Demodata')
+            .where("field", isEqualTo: fieldState)
+            .getDocuments();
+        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+        this.apex_datas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      } else {
+        SortStateChangeFalse();
+        final docs = await Firestore.instance
+            .collection('Apex_Demodata')
+            .where("LobaLimited", isEqualTo: LobaLimitedState)
+            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+            .getDocuments();
+        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
+        this.apex_datas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      }
+    }
   }
 }
 
@@ -65,8 +150,8 @@ class Apex_data {
   String yCoordinate;
   String xCoordinate;
   // ignore: non_constant_identifier_names
-  bool LobaLimited;
-  bool pathfinderLimited;
+  int LobaLimited;
+  int pathfinderLimited;
 
   // ignore: non_constant_identifier_names
   Apex_data(DocumentSnapshot ApexData) {

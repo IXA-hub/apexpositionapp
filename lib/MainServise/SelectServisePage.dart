@@ -15,17 +15,14 @@ class SelectServicePage extends StatelessWidget {
         create: (_) => Selectpage_Model(),
         child: Consumer<Selectpage_Model>(
           builder: (context, model, child) {
-            final int _page = model.getPage();
+            int _page = model.getPage();
             return Scaffold(
               body: Stack(
                 children: <Widget>[
                   Offstage(
                     offstage: _page != 0,
-                    child: TickerMode(
-                      enabled: _page == 0,
-                      child: MaterialApp(
-                        home: SerectApexDataPage(),
-                      ),
+                    child: MaterialApp(
+                      home: SerectApexDataPage(),
                     ),
                   ),
                   Offstage(
