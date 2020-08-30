@@ -95,6 +95,7 @@ class Apex_ListModel extends ChangeNotifier {
   }
 
   Future SerchApexData() async {
+    startLoading();
     if (fieldState == 0) {
       if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
         SortStateChangeFalse();
@@ -140,6 +141,10 @@ class Apex_ListModel extends ChangeNotifier {
         SortStateChangeTrue();
       }
     }
+    stopLoading();
+    LobaLimitedState = 0;
+    pathfinderLimitedState = 0;
+    fieldState = 0;
   }
 }
 

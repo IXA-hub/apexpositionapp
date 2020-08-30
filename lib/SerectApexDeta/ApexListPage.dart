@@ -36,7 +36,10 @@ class ApexListPage extends StatelessWidget {
                       child: ListTile(
                         title: Text(apex_data.title),
                         trailing: IconButton(
-                          icon: Icon(Icons.edit),
+                          icon: Icon(Icons.movie),
+                          onPressed: () {
+                            _showTextDialog(context);
+                          },
                         ),
                       ),
                     ),
@@ -49,6 +52,8 @@ class ApexListPage extends StatelessWidget {
                   children: listTiles,
                 ),
                 floatingActionButton: FloatingActionButton(
+                  child: Text('Sort'),
+                  backgroundColor: Colors.lightBlue,
                   onPressed: () async {
                     await model.SerchApexData();
                   },
@@ -68,4 +73,32 @@ class ApexListPage extends StatelessWidget {
           );
         }));
   }
+}
+
+_showTextDialog(context) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        actions: <Widget>[
+          Container(
+              width: 300.0,
+              height: 300.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                        'https://firealpaca.com/images/douga/alpaca_gifanime.gif'),
+                    fit: BoxFit.cover),
+                borderRadius: BorderRadius.all(Radius.circular(75.0)),
+              )),
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
