@@ -37,8 +37,8 @@ class ApexListPage extends StatelessWidget {
                         title: Text(apex_data.title),
                         trailing: IconButton(
                           icon: Icon(Icons.movie),
-                          onPressed: () {
-                            _showTextDialog(context);
+                          onPressed: () async {
+                            _showTextDialog(context, await model.getUrl());
                           },
                         ),
                       ),
@@ -75,7 +75,7 @@ class ApexListPage extends StatelessWidget {
   }
 }
 
-_showTextDialog(context) async {
+_showTextDialog(context, url) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -86,9 +86,7 @@ _showTextDialog(context) async {
               height: 300.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(
-                        'https://firealpaca.com/images/douga/alpaca_gifanime.gif'),
-                    fit: BoxFit.cover),
+                    image: NetworkImage(url), fit: BoxFit.cover),
                 borderRadius: BorderRadius.all(Radius.circular(75.0)),
               )),
           FlatButton(
