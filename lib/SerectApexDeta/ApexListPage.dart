@@ -10,61 +10,93 @@ class ApexListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Model = Provider.of<Apex_ListModel>(context);
     return ChangeNotifierProvider.value(
-      value: Model,
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            body: Consumer<Apex_ListModel>(builder: (context, model, child) {
-              final apex_datas = model.apex_datas;
-              final listTiles = apex_datas
-                  .map((apex_data) => Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.blueGrey,
-                                offset: Offset(0.0, 0.0),
-                                blurRadius: 10.0,
-                              ),
-                              BoxShadow(
-                                color: Colors.blueGrey,
-                                offset: Offset(0.0, -0.0),
-                                blurRadius: 10.0,
-                              ),
-                            ],
+        value: Model,
+        child: Consumer<Apex_ListModel>(builder: (context, model, child) {
+          final apex_datas = model.apex_datas;
+          final listTiles = apex_datas
+              .map((apex_data) => Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0,
                           ),
-                          child: ListTile(
-                            title: Text(apex_data.title),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit),
-                            ),
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            offset: Offset(0.0, -0.0),
+                            blurRadius: 10.0,
                           ),
+                        ],
+                      ),
+                      child: ListTile(
+                        title: Text(apex_data.title),
+                        trailing: IconButton(
+                          icon: Icon(Icons.movie),
+                          onPressed: () async {
+                            _showTextDialog(context, await model.getUrl());
+                          },
                         ),
-                      ))
-                  .toList();
-              return ListView(
-                children: listTiles,
-              );
-            }),
-          ),
-          Consumer<Apex_ListModel>(
-            builder: (context, model, child) {
-              return model.isLoading
+                      ),
+                    ),
+                  ))
+              .toList();
+          return Stack(
+            children: [
+              Scaffold(
+                body: ListView(
+                  children: listTiles,
+                ),
+                floatingActionButton: FloatingActionButton(
+                  child: Text('Sort'),
+                  backgroundColor: Colors.lightBlue,
+                  onPressed: () async {
+                    await model.SerchApexData();
+                  },
+                ),
+              ),
+              model.isLoading
                   ? Container(
                       child: Center(
-                          child: SpinKitWave(
-                        color: Colors.blueAccent,
-                        size: 50.0,
-                      )),
+                        child: SpinKitWave(
+                          color: Colors.blueAccent,
+                          size: 50.0,
+                        ),
+                      ),
                     )
-                  : SizedBox();
-            },
-          )
-        ],
-      ),
-    );
+                  : SizedBox(),
+            ],
+          );
+        }));
   }
+}
+
+_showTextDialog(context, url) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        actions: <Widget>[
+          Container(
+              width: 300.0,
+              height: 300.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(url), fit: BoxFit.cover),
+                borderRadius: BorderRadius.all(Radius.circular(75.0)),
+              )),
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

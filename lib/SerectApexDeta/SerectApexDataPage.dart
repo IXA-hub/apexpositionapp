@@ -8,14 +8,13 @@ import 'ApexListPage.dart';
 import 'Sort.dart';
 
 class SerectApexDataPage extends StatelessWidget {
-  int _page = 0;
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Apex_ListModel>(
       create: (_) => Apex_ListModel()..fetchApex_data(),
       // ignore: missing_return
       child: Consumer<Apex_ListModel>(builder: (context, model, child) {
+        int _page = model.getPage2();
         return Stack(
           children: <Widget>[
             DefaultTabController(
@@ -29,8 +28,8 @@ class SerectApexDataPage extends StatelessWidget {
                   ]),
                   bottom: TabBar(
                       onTap: (index) {
-                        model.setPage(index);
-                        _page = model.getPage();
+                        model.setPage2(index);
+                        _page = model.getPage2();
                       },
                       tabs: <Widget>[
                         Tab(
