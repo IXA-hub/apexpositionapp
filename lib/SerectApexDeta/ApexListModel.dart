@@ -6,29 +6,18 @@ class Apex_ListModel extends ChangeNotifier {
   Future getUrl() async {
     final url = await FirebaseStorage.instance
         .ref()
+        .child('kingsCanyon')
+        .child('pathfinder')
         .child('rain1_animated_256.gif')
         .getDownloadURL();
     return url;
   }
 
-  int _page = 0;
-
-  getPage() {
-    return _page;
-  }
-
-  setPage(int x) {
-    _page = x;
-    notifyListeners();
-  }
-
-  int _page2 = 0;
-  getPage2() {
-    return _page2;
-  }
-
-  setPage2(int x) {
-    _page2 = x;
+  double list = 1.0;
+  double sort = 0.0;
+  changePage(double x, double y) {
+    list = x;
+    sort = y;
     notifyListeners();
   }
 
