@@ -39,7 +39,10 @@ class SerectApexDataPage extends StatelessWidget {
                       trailing: IconButton(
                         icon: Icon(Icons.movie),
                         onPressed: () async {
-                          _showTextDialog(context, await model.getUrl());
+                          _showTextDialog(
+                              context,
+                              await model.getGif(apex_data.gifDirectory1,
+                                  apex_data.gifDirectory2, apex_data.gif));
                         },
                       ),
                     ),
@@ -51,14 +54,14 @@ class SerectApexDataPage extends StatelessWidget {
             Scaffold(
               body: Stack(
                 children: [
-                  Opacity(
-                    opacity: model.list,
+                  Offstage(
+                    offstage: model.list != 1,
                     child: ListView(
                       children: listTiles,
                     ),
                   ),
-                  Opacity(
-                    opacity: model.sort,
+                  Offstage(
+                    offstage: model.sort != 1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

@@ -12,11 +12,10 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<emailSignUpModel>(
       create: (_) => emailSignUpModel(),
-      child: (
-          //ここから
-          Scaffold(
+      child: (Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomPadding: true,
+        appBar: AppBar(),
         body: Consumer<emailSignUpModel>(
           builder: (context, model, child) {
             return Center(
@@ -70,29 +69,12 @@ class SignupPage extends StatelessWidget {
                               },
                               obscureText: true,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    // todo ここにパスワード紛失時の手続きを記述
-                                    print("onTap called.");
-                                  },
-                                  child: (Text(
-                                    'passwordを忘れた場合',
-                                    style: TextStyle(color: Colors.blue),
-                                  )),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  // ここまで
                   SizedBox(height: 50),
-                  //ここから
                   InkWell(
                     child: Container(
                       width: 190,
