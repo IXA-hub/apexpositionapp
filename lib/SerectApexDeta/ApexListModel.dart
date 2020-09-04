@@ -1,34 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Apex_ListModel extends ChangeNotifier {
-  Future getUrl() async {
+  Future getGif(String gifDirectory1, String gifDirectory2, String gif) async {
     final url = await FirebaseStorage.instance
         .ref()
-        .child('rain1_animated_256.gif')
+        .child(gifDirectory1)
+        .child(gifDirectory2)
+        .child(gif)
         .getDownloadURL();
     return url;
   }
 
-  int _page = 0;
-
-  getPage() {
-    return _page;
-  }
-
-  setPage(int x) {
-    _page = x;
-    notifyListeners();
-  }
-
-  int _page2 = 0;
-  getPage2() {
-    return _page2;
-  }
-
-  setPage2(int x) {
-    _page2 = x;
+  double list = 1.0;
+  double sort = 0.0;
+  changePage(double x, double y) {
+    list = x;
+    sort = y;
     notifyListeners();
   }
 
@@ -161,8 +151,9 @@ class Apex_data {
   String documentID;
   String title;
   String field;
-  String yCoordinate;
-  String xCoordinate;
+  String gif;
+  String gifDirectory1;
+  String gifDirectory2;
   // ignore: non_constant_identifier_names
   int LobaLimited;
   int pathfinderLimited;
@@ -172,9 +163,10 @@ class Apex_data {
     documentID = ApexData.documentID;
     title = ApexData['title'];
     field = ApexData['field'];
-    yCoordinate = ApexData['yCoordinate'];
-    xCoordinate = ApexData['xCoordinate'];
     LobaLimited = ApexData['LobaLimited'];
+    gif = ApexData['gif'];
+    gifDirectory1 = ApexData['gifDirectory1'];
+    gifDirectory2 = ApexData['gifDirectory2'];
     pathfinderLimited = ApexData['pathfinderLimited'];
   }
 }

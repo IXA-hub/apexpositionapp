@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:provider/provider.dart';
 
 import 'EmailsenderModel.dart';
@@ -9,35 +6,13 @@ import 'EmailsenderModel.dart';
 class EmailSenderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Email email = Email(
-      body: 'Email body',
-      subject: 'Email subject',
-      recipients: ['nikumathuri@gmail.com'],
-      isHTML: false,
-    );
-    Future Send() async {
-      try {
-        await FlutterEmailSender.send(email);
-      } catch (e) {
-        print(e.toString());
-      }
-    }
-
     return ChangeNotifierProvider<EmailSenderModel>(
         create: (_) => EmailSenderModel(),
         child: Consumer<EmailSenderModel>(
           builder: (context, model, child) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Email'),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: () {
-                      Send();
-                    },
-                  ),
-                ],
+                title: Text('リクエスト'),
               ),
               body: SingleChildScrollView(
                 child: Padding(
@@ -50,24 +25,39 @@ class EmailSenderPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextField(
+                          onChanged: (value) {
+                            model.title = value;
+                          },
+                          maxLengthEnforced: true,
+                          enableInteractiveSelection: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Recipient',
+                            labelText: 'Request',
                           ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextField(
+                          onChanged: (value) {
+                            model.name = value;
+                          },
+                          maxLengthEnforced: true,
+                          enableInteractiveSelection: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Subject',
+                            labelText: 'Name',
                           ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextField(
+                          onChanged: (value) {
+                            model.email = value;
+                          },
+                          maxLengthEnforced: true,
+                          enableInteractiveSelection: true,
                           maxLines: 10,
                           decoration: InputDecoration(
                               labelText: 'Body', border: OutlineInputBorder()),
@@ -78,8 +68,11 @@ class EmailSenderPage extends StatelessWidget {
                 ),
               ),
               floatingActionButton: FloatingActionButton.extended(
-                icon: Icon(Icons.camera),
-                label: Text('Add Image'),
+                icon: Icon(Icons.send),
+                label: Text('送信'),
+                onPressed: () {
+                  model.emailSend();
+                },
               ),
             );
           },
