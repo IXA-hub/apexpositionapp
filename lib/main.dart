@@ -1,28 +1,70 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'MainServise/SelectServisePage.dart';
-
-//ログイン時はtrue
-Future<bool> isLogin() async =>
-    await FirebaseAuth.instance.currentUser() != null;
+import 'mainModel.dart';
 
 void main() async {
   // main内で非同期処理を呼び出す場合runApp前に初期化が必要
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env');
-  runApp(MyApp(await isLogin()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLogin;
-  MyApp(this.isLogin);
-
+  final model = AppModel();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SelectServicePage(),
+      home: StreamBuilder(
+        //userStateを検知して画面を生成。初期はwaiting
+        stream: model.userState,
+        initialData: UserState.waiting,
+        builder: (context, AsyncSnapshot<UserState> snapshot) {
+          //userのstateがwaitingと一致していたらwaiting。それ以外はsnapshotを参照する。
+          final UserState state =
+              snapshot.connectionState == ConnectionState.waiting
+                  ? UserState.waiting
+                  : snapshot.data;
+          return _convertPage(state);
+        },
+      ),
+    );
+  }
+
+  StatelessWidget _convertPage(UserState state) {
+    switch (state) {
+      case UserState.waiting: // 初期化中
+        return SplashPage();
+
+      case UserState.noLogin: // 未ログイン
+        return SelectServicePage(false);
+
+      case UserState.okLogin:
+        return SelectServicePage(true);
+    }
+  }
+}
+
+class SplashPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Theme.of(context).primaryColor,
+        child: SafeArea(
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 96,
+                  child: Image.asset('resources/img_app_icon.jpg'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

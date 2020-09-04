@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'SelectServiceModel.dart';
 
 class SelectServicePage extends StatelessWidget {
-  final bool isLogin = false;
-  //SelectServicePage(this.isLogin);
+  final bool isLogin;
+  SelectServicePage(this.isLogin);
 
   @override
   Widget build(BuildContext context) {

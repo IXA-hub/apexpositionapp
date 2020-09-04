@@ -17,7 +17,7 @@ class emailSignUpModel extends ChangeNotifier {
       throw ('passwordを入力してください');
     }
 
-    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+    final User user = (await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     ))

@@ -22,24 +22,35 @@ class Apex_ListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Apex_data> apex_datas = [];
   bool isLoading = false;
 
   startLoading() {
     isLoading = true;
+    notifyListeners();
   }
 
   stopLoading() {
     isLoading = false;
+    notifyListeners();
   }
 
-  Future fetchApex_data() async {
+  List<ApexData> ApexDatas = [];
+  Future fetchApexData() async {
     startLoading();
     final docs =
-        await Firestore.instance.collection('Apex_Demodata').getDocuments();
-    final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-    this.apex_datas = apexdatas;
-    notifyListeners();
+        await FirebaseFirestore.instance.collection('Apex_Demodata').get();
+    final ApexDatas = docs.docs
+        .map((doc) => ApexData(
+            id: doc.data()['id'],
+            title: doc.data()['title'],
+            field: doc.data()['field'],
+            gif: doc.data()['gif'],
+            gifDirectory1: doc.data()['gifDirectory1'],
+            gifDirectory2: doc.data()['gifDirectory2'],
+            LobaLimited: doc.data()['LobaLimited'],
+            pathfinderLimited: doc.data()['pathfinderLimited']))
+        .toList();
+    this.ApexDatas = ApexDatas;
     stopLoading();
   }
 
@@ -93,62 +104,72 @@ class Apex_ListModel extends ChangeNotifier {
     }
   }
 
-  Future SerchApexData() async {
-    startLoading();
-    if (fieldState == 0) {
-      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-        SortStateChangeFalse();
-        final docs =
-            await Firestore.instance.collection('Apex_Demodata').getDocuments();
-        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-        this.apex_datas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
-      } else {
-        SortStateChangeFalse();
-        final docs = await Firestore.instance
-            .collection('Apex_Demodata')
-            .where("LobaLimited", isEqualTo: LobaLimitedState)
-            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
-            .getDocuments();
-        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-        this.apex_datas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
-      }
-    } else {
-      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-        SortStateChangeFalse();
-        final docs = await Firestore.instance
-            .collection('Apex_Demodata')
-            .where("field", isEqualTo: fieldState)
-            .getDocuments();
-        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-        this.apex_datas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
-      } else {
-        SortStateChangeFalse();
-        final docs = await Firestore.instance
-            .collection('Apex_Demodata')
-            .where("LobaLimited", isEqualTo: LobaLimitedState)
-            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
-            .getDocuments();
-        final apexdatas = docs.documents.map((doc) => Apex_data(doc)).toList();
-        this.apex_datas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
-      }
-    }
-    stopLoading();
-    LobaLimitedState = 0;
-    pathfinderLimitedState = 0;
-    fieldState = 0;
-  }
+//  Future SerchApexData() async {
+//    startLoading();
+//    if (fieldState == 0) {
+//      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+//        SortStateChangeFalse();
+//        final docs = await FirebaseFirestore.instance
+//            .collection('Apex_Demodata')
+//            .getDocuments();
+//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
+//        this.apex_datas = apexdatas;
+//        notifyListeners();
+//        SortStateChangeTrue();
+//      } else {
+//        SortStateChangeFalse();
+//        final docs = await FirebaseFirestore.instance
+//            .collection('Apex_Demodata')
+//            .where("LobaLimited", isEqualTo: LobaLimitedState)
+//            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+//            .get();
+//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
+//        this.apex_datas = apexdatas;
+//        notifyListeners();
+//        SortStateChangeTrue();
+//      }
+//    } else {
+//      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+//        SortStateChangeFalse();
+//        final docs = await FirebaseFirestore.instance
+//            .collection('Apex_Demodata')
+//            .where("field", isEqualTo: fieldState)
+//            .get();
+//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
+//        this.apex_datas = apexdatas;
+//        notifyListeners();
+//        SortStateChangeTrue();
+//      } else {
+//        SortStateChangeFalse();
+//        final docs = await Firestore.instance
+//            .collection('Apex_Demodata')
+//            .where("LobaLimited", isEqualTo: LobaLimitedState)
+//            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+//            .get();
+//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
+//        this.apex_datas = apexdatas;
+//        notifyListeners();
+//        SortStateChangeTrue();
+//      }
+//    }
+//    stopLoading();
+//    LobaLimitedState = 0;
+//    pathfinderLimitedState = 0;
+//    fieldState = 0;
+//  }
 }
 
-class Apex_data {
-  String documentID;
+class ApexData {
+  ApexData(
+      {this.id,
+      this.title,
+      this.field,
+      this.gif,
+      this.gifDirectory1,
+      this.gifDirectory2,
+      this.LobaLimited,
+      this.pathfinderLimited});
+  String id;
   String title;
   String field;
   String gif;
@@ -159,14 +180,14 @@ class Apex_data {
   int pathfinderLimited;
 
   // ignore: non_constant_identifier_names
-  Apex_data(DocumentSnapshot ApexData) {
-    documentID = ApexData.documentID;
-    title = ApexData['title'];
-    field = ApexData['field'];
-    LobaLimited = ApexData['LobaLimited'];
-    gif = ApexData['gif'];
-    gifDirectory1 = ApexData['gifDirectory1'];
-    gifDirectory2 = ApexData['gifDirectory2'];
-    pathfinderLimited = ApexData['pathfinderLimited'];
-  }
+  dynamic toJson() => {
+        'id': id,
+        'title': title,
+        'field': field,
+        'gif': gif,
+        'gifDirectory1': gifDirectory1,
+        'gifDirectory2': gifDirectory2,
+        'LobaLimited': LobaLimited,
+        'pathfinderLimited': pathfinderLimited
+      };
 }

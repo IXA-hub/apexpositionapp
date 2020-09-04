@@ -12,9 +12,7 @@ class SigninPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<emailSignInModel>(
       create: (_) => emailSignInModel(),
-      child: (
-          //ここから
-          Scaffold(
+      child: (Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomPadding: true,
         body: Consumer<emailSignInModel>(
@@ -69,6 +67,20 @@ class SigninPage extends StatelessWidget {
                                 model.password = text;
                               },
                               obscureText: true,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    //todo
+                                  },
+                                  child: Text(
+                                    'passwordを忘れた場合',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
