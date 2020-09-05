@@ -104,59 +104,98 @@ class Apex_ListModel extends ChangeNotifier {
     }
   }
 
-//  Future SerchApexData() async {
-//    startLoading();
-//    if (fieldState == 0) {
-//      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-//        SortStateChangeFalse();
-//        final docs = await FirebaseFirestore.instance
-//            .collection('Apex_Demodata')
-//            .getDocuments();
-//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
-//        this.apex_datas = apexdatas;
-//        notifyListeners();
-//        SortStateChangeTrue();
-//      } else {
-//        SortStateChangeFalse();
-//        final docs = await FirebaseFirestore.instance
-//            .collection('Apex_Demodata')
-//            .where("LobaLimited", isEqualTo: LobaLimitedState)
-//            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
-//            .get();
-//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
-//        this.apex_datas = apexdatas;
-//        notifyListeners();
-//        SortStateChangeTrue();
-//      }
-//    } else {
-//      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-//        SortStateChangeFalse();
-//        final docs = await FirebaseFirestore.instance
-//            .collection('Apex_Demodata')
-//            .where("field", isEqualTo: fieldState)
-//            .get();
-//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
-//        this.apex_datas = apexdatas;
-//        notifyListeners();
-//        SortStateChangeTrue();
-//      } else {
-//        SortStateChangeFalse();
-//        final docs = await Firestore.instance
-//            .collection('Apex_Demodata')
-//            .where("LobaLimited", isEqualTo: LobaLimitedState)
-//            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
-//            .get();
-//        final apexdatas = docs.docs.map((doc) => Apex_data(doc)).toList();
-//        this.apex_datas = apexdatas;
-//        notifyListeners();
-//        SortStateChangeTrue();
-//      }
-//    }
-//    stopLoading();
-//    LobaLimitedState = 0;
-//    pathfinderLimitedState = 0;
-//    fieldState = 0;
-//  }
+  Future SerchApexData() async {
+    startLoading();
+    if (fieldState == 0) {
+      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+        SortStateChangeFalse();
+        final docs =
+            await FirebaseFirestore.instance.collection('Apex_Demodata').get();
+        final apexdatas = docs.docs
+            .map((doc) => ApexData(
+                id: doc.data()['id'],
+                title: doc.data()['title'],
+                field: doc.data()['field'],
+                gif: doc.data()['gif'],
+                gifDirectory1: doc.data()['gifDirectory1'],
+                gifDirectory2: doc.data()['gifDirectory2'],
+                LobaLimited: doc.data()['LobaLimited'],
+                pathfinderLimited: doc.data()['pathfinderLimited']))
+            .toList();
+        this.ApexDatas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      } else {
+        SortStateChangeFalse();
+        final docs = await FirebaseFirestore.instance
+            .collection('Apex_Demodata')
+            .where("LobaLimited", isEqualTo: LobaLimitedState)
+            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+            .get();
+        final apexdatas = docs.docs
+            .map((doc) => ApexData(
+                id: doc.data()['id'],
+                title: doc.data()['title'],
+                field: doc.data()['field'],
+                gif: doc.data()['gif'],
+                gifDirectory1: doc.data()['gifDirectory1'],
+                gifDirectory2: doc.data()['gifDirectory2'],
+                LobaLimited: doc.data()['LobaLimited'],
+                pathfinderLimited: doc.data()['pathfinderLimited']))
+            .toList();
+        this.ApexDatas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      }
+    } else {
+      if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
+        SortStateChangeFalse();
+        final docs = await FirebaseFirestore.instance
+            .collection('Apex_Demodata')
+            .where("field", isEqualTo: fieldState)
+            .get();
+        final apexdatas = docs.docs
+            .map((doc) => ApexData(
+                id: doc.data()['id'],
+                title: doc.data()['title'],
+                field: doc.data()['field'],
+                gif: doc.data()['gif'],
+                gifDirectory1: doc.data()['gifDirectory1'],
+                gifDirectory2: doc.data()['gifDirectory2'],
+                LobaLimited: doc.data()['LobaLimited'],
+                pathfinderLimited: doc.data()['pathfinderLimited']))
+            .toList();
+        this.ApexDatas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      } else {
+        SortStateChangeFalse();
+        final docs = await Firestore.instance
+            .collection('Apex_Demodata')
+            .where("LobaLimited", isEqualTo: LobaLimitedState)
+            .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
+            .get();
+        final apexdatas = docs.docs
+            .map((doc) => ApexData(
+                id: doc.data()['id'],
+                title: doc.data()['title'],
+                field: doc.data()['field'],
+                gif: doc.data()['gif'],
+                gifDirectory1: doc.data()['gifDirectory1'],
+                gifDirectory2: doc.data()['gifDirectory2'],
+                LobaLimited: doc.data()['LobaLimited'],
+                pathfinderLimited: doc.data()['pathfinderLimited']))
+            .toList();
+        this.ApexDatas = apexdatas;
+        notifyListeners();
+        SortStateChangeTrue();
+      }
+    }
+    stopLoading();
+    LobaLimitedState = 0;
+    pathfinderLimitedState = 0;
+    fieldState = 0;
+  }
 }
 
 class ApexData {

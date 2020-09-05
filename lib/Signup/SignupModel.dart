@@ -25,7 +25,7 @@ class emailSignUpModel extends ChangeNotifier {
     //.userのemailを取得
     final UserEmail = user.email;
 
-    Firestore.instance.collection('users').add(
+    FirebaseFirestore.instance.collection('users').doc(user.uid).set(
       {
         'Email': UserEmail,
         'createdAt': Timestamp.now(),
