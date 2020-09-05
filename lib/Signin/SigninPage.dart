@@ -1,3 +1,4 @@
+import 'package:apexpositionapp/Account/AcccountPage.dart';
 import 'package:apexpositionapp/Signup/SignupPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,7 @@ class SigninPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<emailSignInModel>(
       create: (_) => emailSignInModel(),
-      child: (
-          //ここから
-          Scaffold(
+      child: (Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomPadding: true,
         body: Consumer<emailSignInModel>(
@@ -70,6 +69,20 @@ class SigninPage extends StatelessWidget {
                               },
                               obscureText: true,
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    //todo
+                                  },
+                                  child: Text(
+                                    'passwordを忘れた場合',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -101,7 +114,7 @@ class SigninPage extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SigninPage(),
+                                  builder: (context) => AccountPage(),
                                 ),
                               );
                             } catch (e) {

@@ -72,10 +72,34 @@ class EmailSenderPage extends StatelessWidget {
                 label: Text('送信'),
                 onPressed: () {
                   model.emailSend();
+                  _showTextDialog(context);
                 },
               ),
             );
           },
         ));
   }
+}
+
+_showTextDialog(context) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        actions: <Widget>[
+          Container(
+            width: 300.0,
+            height: 300.0,
+            child: Text('送信されました'),
+          ),
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
