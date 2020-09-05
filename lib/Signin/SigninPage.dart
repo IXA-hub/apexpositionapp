@@ -1,3 +1,4 @@
+import 'package:apexpositionapp/Account/AcccountPage.dart';
 import 'package:apexpositionapp/Signup/SignupPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class SigninPage extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SigninPage(),
+                                  builder: (context) => AccountPage(),
                                 ),
                               );
                             } catch (e) {

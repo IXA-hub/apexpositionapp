@@ -1,5 +1,5 @@
 import 'package:apexpositionapp/Account/AcccountPage.dart';
-import 'package:apexpositionapp/SerectApexDeta/SerectApexDataPage.dart';
+import 'package:apexpositionapp/SerectApexDeta/ApexListPage.dart';
 import 'package:apexpositionapp/Signin/SigninPage.dart';
 import 'package:apexpositionapp/SubServise/SubServisePage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';

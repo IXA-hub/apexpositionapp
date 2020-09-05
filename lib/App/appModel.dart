@@ -55,6 +55,7 @@ class AppModel {
       return null;
     }
     User user = User.doc(doc);
+    return user;
   }
 }
 

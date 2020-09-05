@@ -56,8 +56,7 @@ class SerectApexDataPage extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    apexDataList(
-                                        context, model.ApexDatas, child),
+                                    ApexDataList(),
                                   ],
                                 ),
                               ),
@@ -221,20 +220,32 @@ class SerectApexDataPage extends StatelessWidget {
   }
 }
 
-Widget apexDataList(BuildContext context, List<ApexData> ApexDatas, child) {
-  final List<Card> apexDataCard = ApexDatas.map((apexData) => Card(
-        child: ListTile(
-          title: Text(apexData.title),
-        ),
-      )).toList();
-  return ListView(
-    shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    children: apexDataCard,
-  );
+class ApexDataList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final model = Provider.of<Apex_ListModel>(context);
+    final List<Card> apexDataCard = model.ApexDatas.map((apexData) => Card(
+          child: ListTile(
+            title: Text(apexData.title),
+            trailing: IconButton(
+              icon: Icon(Icons.movie),
+              onPressed: () async {
+                String url = await model.getGif(apexData.gifDirectory1,
+                    apexData.gifDirectory2, apexData.gif);
+                _showGifMovie(context, url);
+              },
+            ),
+          ),
+        )).toList();
+    return ListView(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: apexDataCard,
+    );
+  }
 }
 
-_showTextDialog(context, url) async {
+_showGifMovie(context, url) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
