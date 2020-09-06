@@ -1,4 +1,4 @@
-import 'package:apexpositionapp/MainServise/SelectServisePage.dart';
+import 'package:apexpositionapp/MainServise/MainService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +16,8 @@ class App extends StatelessWidget {
         initialData: UserState.waiting,
         builder: (context, AsyncSnapshot<UserState> snapshot) {
           //userのstateがwaitingと一致していたらwaiting。それ以外はsnapshotを参照する。
-          final UserState state =
-              snapshot.connectionState == ConnectionState.waiting
-                  ? UserState.waiting
-                  : snapshot.data;
+          //snapshotはUserState
+          final UserState state = snapshot.data;
           return _convertPage(state);
         },
       ),
