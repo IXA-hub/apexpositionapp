@@ -4,25 +4,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import 'ApexListModel.dart';
+import 'ApexDataListModel.dart';
 
-class SerectApexDataPage extends StatelessWidget {
+class ApexDataListPage extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Apex_ListModel>(
-      create: (_) => Apex_ListModel()..fetchApexData(),
+    return ChangeNotifierProvider<ApexDataListModel>(
+      create: (_) => ApexDataListModel()..fetchApexData(),
       // ignore: missing_return
-      child: Consumer<Apex_ListModel>(builder: (context, model, child) {
+      child: Consumer<ApexDataListModel>(builder: (context, model, child) {
         return model.isLoading
-            ? Container(
-                child: Center(
-                  child: SpinKitWave(
-                    color: Colors.blueAccent,
-                    size: 50.0,
-                  ),
-                ),
-              )
+            ? _loadingPage(context)
             : Stack(
                 children: [
                   Scaffold(
@@ -38,25 +31,8 @@ class SerectApexDataPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 40),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0, horizontal: 5),
-                                      child: TextField(
-                                        controller: searchController,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: '検索用',
-                                            suffixIcon: IconButton(
-                                                icon: Icon(Icons.search),
-                                                onPressed: () {
-                                                  //todo
-                                                })),
-                                        onChanged: (value) {
-                                          String text = value;
-                                        },
-                                      ),
-                                    ),
-                                    ApexDataList(),
+                                    _serchBar(context, searchController),
+                                    _apexDataList(),
                                   ],
                                 ),
                               ),
@@ -220,10 +196,10 @@ class SerectApexDataPage extends StatelessWidget {
   }
 }
 
-class ApexDataList extends StatelessWidget {
+class _apexDataList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<Apex_ListModel>(context);
+    final model = Provider.of<ApexDataListModel>(context);
     final List<Card> apexDataCard = model.ApexDatas.map((apexData) => Card(
           child: ListTile(
             title: Text(apexData.title),
@@ -243,6 +219,37 @@ class ApexDataList extends StatelessWidget {
       children: apexDataCard,
     );
   }
+}
+
+Widget _serchBar(BuildContext context, TextEditingController searchController) {
+  return Container(
+    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+    child: TextField(
+      controller: searchController,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: '検索用',
+          suffixIcon: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                //todo
+              })),
+      onChanged: (value) {
+        String text = value;
+      },
+    ),
+  );
+}
+
+Widget _loadingPage(BuildContext context) {
+  return Container(
+    child: Center(
+      child: SpinKitWave(
+        color: Colors.blueAccent,
+        size: 50.0,
+      ),
+    ),
+  );
 }
 
 _showGifMovie(context, url) async {

@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-class emailSignUpModel extends ChangeNotifier {
-  String email = null;
-  String password = null;
+class SignUpModel extends ChangeNotifier {
+  String email;
+  String password;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 

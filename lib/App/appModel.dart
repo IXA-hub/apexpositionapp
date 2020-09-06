@@ -4,9 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart' as Auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<bool> isLogin() async =>
-    await Auth.FirebaseAuth.instance.currentUser != null;
-
 class AppModel {
   // ignore: close_sinks
   final _userStateStreamController = StreamController<UserState>();
@@ -24,8 +21,6 @@ class AppModel {
     await Firebase.initializeApp();
     await DotEnv().load('.env');
 
-    // ログイン状態の変化を監視し、変更があればUserStateをstreamで通知する
-
     UserState state = UserState.noLogin;
 
     if (await isLogin()) {
@@ -35,12 +30,17 @@ class AppModel {
     }
 
     _state = state;
-
-    // noLogin の場合すぐに SplashPage が閉じてしまうので少し待つ
-    if (_state == UserState.noLogin) {
-      await Future.delayed(Duration(seconds: 3));
-    }
+    //loadingPage表示の為に待機
+    await Future.delayed(Duration(microseconds: 1500));
+    //stateの更新
     _userStateStreamController.sink.add(_state);
+  }
+
+  Future isLogin() async {
+    if (await Auth.FirebaseAuth.instance.currentUser != null) {
+      return true;
+    }
+    return false;
   }
 }
 

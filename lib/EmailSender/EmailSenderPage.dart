@@ -22,47 +22,9 @@ class EmailSenderPage extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            model.title = value;
-                          },
-                          maxLengthEnforced: true,
-                          enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Request',
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            model.name = value;
-                          },
-                          maxLengthEnforced: true,
-                          enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Name',
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            model.email = value;
-                          },
-                          maxLengthEnforced: true,
-                          enableInteractiveSelection: true,
-                          maxLines: 10,
-                          decoration: InputDecoration(
-                              labelText: 'Body', border: OutlineInputBorder()),
-                        ),
-                      ),
+                      _requestTextBox(context),
+                      _nameTextBox(context),
+                      _emailTextBox(context),
                     ],
                   ),
                 ),
@@ -79,6 +41,59 @@ class EmailSenderPage extends StatelessWidget {
           },
         ));
   }
+}
+
+Widget _requestTextBox(BuildContext context) {
+  final model = Provider.of<EmailSenderModel>(context);
+  return Padding(
+    padding: EdgeInsets.all(8.0),
+    child: TextField(
+      onChanged: (value) {
+        model.title = value;
+      },
+      maxLengthEnforced: true,
+      enableInteractiveSelection: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Request',
+      ),
+    ),
+  );
+}
+
+Widget _nameTextBox(BuildContext context) {
+  final model = Provider.of<EmailSenderModel>(context);
+  return Padding(
+    padding: EdgeInsets.all(8.0),
+    child: TextField(
+      onChanged: (value) {
+        model.name = value;
+      },
+      maxLengthEnforced: true,
+      enableInteractiveSelection: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Name',
+      ),
+    ),
+  );
+}
+
+Widget _emailTextBox(BuildContext context) {
+  final model = Provider.of<EmailSenderModel>(context);
+  return Padding(
+    padding: EdgeInsets.all(8.0),
+    child: TextField(
+      onChanged: (value) {
+        model.email = value;
+      },
+      maxLengthEnforced: true,
+      enableInteractiveSelection: true,
+      maxLines: 10,
+      decoration:
+          InputDecoration(labelText: 'Body', border: OutlineInputBorder()),
+    ),
+  );
 }
 
 _showTextDialog(context) async {

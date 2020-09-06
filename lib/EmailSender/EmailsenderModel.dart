@@ -6,10 +6,10 @@ class EmailSenderModel extends ChangeNotifier {
   String email;
   String name;
   Future emailSend() {
-    Firestore.instance.collection('email').add({
+    FirebaseFirestore.instance.collection('email').add({
       'title': title,
       'name': name,
-      'Email': email,
+      'Email': email, //todo 登録時のemail
       'createdAt': Timestamp.now(),
     });
   }

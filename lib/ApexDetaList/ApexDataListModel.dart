@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Apex_ListModel extends ChangeNotifier {
+class ApexDataListModel extends ChangeNotifier {
   Future getGif(String gifDirectory1, String gifDirectory2, String gif) async {
     final url = await FirebaseStorage.instance
         .ref()
