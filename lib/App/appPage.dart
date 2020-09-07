@@ -1,9 +1,9 @@
+import 'package:apexpositionapp/Loading/LoadingPage.dart';
 import 'package:apexpositionapp/MainServise/MainService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'appModel.dart';
-import 'loadingPage.dart';
 
 class App extends StatelessWidget {
   final model = AppModel();
