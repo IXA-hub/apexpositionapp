@@ -4,26 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ApexDataListModel extends ChangeNotifier {
-  Future getGif(String gifDirectory1, String gifDirectory2, String gif) async {
-    final url = await FirebaseStorage.instance
-        .ref()
-        .child(gifDirectory1)
-        .child(gifDirectory2)
-        .child(gif)
-        .getDownloadURL();
-    return url;
-  }
-
-  double list = 1.0;
-  double sort = 0.0;
-  changePage(double x, double y) {
-    list = x;
-    sort = y;
+  int page = 0;
+  changePage() {
+    if (page == 0) {
+      page = 1;
+    } else {
+      page = 0;
+    }
     notifyListeners();
   }
 
   bool isLoading = false;
-
   startLoading() {
     isLoading = true;
     notifyListeners();
@@ -32,6 +23,16 @@ class ApexDataListModel extends ChangeNotifier {
   stopLoading() {
     isLoading = false;
     notifyListeners();
+  }
+
+  Future getGif(String gifDirectory1, String gifDirectory2, String gif) async {
+    final url = await FirebaseStorage.instance
+        .ref()
+        .child(gifDirectory1)
+        .child(gifDirectory2)
+        .child(gif)
+        .getDownloadURL();
+    return url;
   }
 
   List<ApexData> ApexDatas = [];
@@ -54,18 +55,7 @@ class ApexDataListModel extends ChangeNotifier {
     stopLoading();
   }
 
-  bool SortState = true;
-
-  SortStateChangeTrue() {
-    SortState = true;
-  }
-
-  SortStateChangeFalse() {
-    SortState = false;
-  }
-
   int LobaLimitedState = 0;
-  int pathfinderLimitedState = 0;
   // ignore: non_constant_identifier_names
   Future SelectLobaLimitedState(int index) {
     switch (index) {
@@ -78,6 +68,7 @@ class ApexDataListModel extends ChangeNotifier {
     }
   }
 
+  int pathfinderLimitedState = 0;
   Future SelectpathfinderLimitedState(int index) {
     switch (index) {
       case 0:
@@ -108,7 +99,6 @@ class ApexDataListModel extends ChangeNotifier {
     startLoading();
     if (fieldState == 0) {
       if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-        SortStateChangeFalse();
         final docs =
             await FirebaseFirestore.instance.collection('Apex_Demodata').get();
         final apexdatas = docs.docs
@@ -123,10 +113,7 @@ class ApexDataListModel extends ChangeNotifier {
                 pathfinderLimited: doc.data()['pathfinderLimited']))
             .toList();
         this.ApexDatas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
       } else {
-        SortStateChangeFalse();
         final docs = await FirebaseFirestore.instance
             .collection('Apex_Demodata')
             .where("LobaLimited", isEqualTo: LobaLimitedState)
@@ -144,12 +131,9 @@ class ApexDataListModel extends ChangeNotifier {
                 pathfinderLimited: doc.data()['pathfinderLimited']))
             .toList();
         this.ApexDatas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
       }
     } else {
       if (LobaLimitedState == 0 && pathfinderLimitedState == 0) {
-        SortStateChangeFalse();
         final docs = await FirebaseFirestore.instance
             .collection('Apex_Demodata')
             .where("field", isEqualTo: fieldState)
@@ -166,11 +150,8 @@ class ApexDataListModel extends ChangeNotifier {
                 pathfinderLimited: doc.data()['pathfinderLimited']))
             .toList();
         this.ApexDatas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
       } else {
-        SortStateChangeFalse();
-        final docs = await Firestore.instance
+        final docs = await FirebaseFirestore.instance
             .collection('Apex_Demodata')
             .where("LobaLimited", isEqualTo: LobaLimitedState)
             .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
@@ -187,14 +168,13 @@ class ApexDataListModel extends ChangeNotifier {
                 pathfinderLimited: doc.data()['pathfinderLimited']))
             .toList();
         this.ApexDatas = apexdatas;
-        notifyListeners();
-        SortStateChangeTrue();
       }
     }
-    stopLoading();
     LobaLimitedState = 0;
     pathfinderLimitedState = 0;
     fieldState = 0;
+    stopLoading();
+    notifyListeners();
   }
 }
 
@@ -210,11 +190,11 @@ class ApexData {
       this.pathfinderLimited});
   String id;
   String title;
-  String field;
   String gif;
   String gifDirectory1;
   String gifDirectory2;
   // ignore: non_constant_identifier_names
+  int field;
   int LobaLimited;
   int pathfinderLimited;
 
