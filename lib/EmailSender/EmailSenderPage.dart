@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'EmailsenderModel.dart';
 
 class EmailSenderPage extends StatelessWidget {
+  final String Email;
+  EmailSenderPage(this.Email);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EmailSenderModel>(
@@ -11,9 +13,6 @@ class EmailSenderPage extends StatelessWidget {
         child: Consumer<EmailSenderModel>(
           builder: (context, model, child) {
             return Scaffold(
-              appBar: AppBar(
-                title: Text('リクエスト'),
-              ),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
@@ -23,8 +22,18 @@ class EmailSenderPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       _requestTextBox(context),
-                      _nameTextBox(context),
+                      _UserEmailBox(context, Email),
                       _emailTextBox(context),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.info),
+                              onPressed: () {
+                                _showTextDialog(context, 'ok');
+                              }),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -34,7 +43,7 @@ class EmailSenderPage extends StatelessWidget {
                 label: Text('送信'),
                 onPressed: () {
                   model.emailSend();
-                  _showTextDialog(context);
+                  _showTextDialog(context, '送信されました');
                 },
               ),
             );
@@ -61,19 +70,19 @@ Widget _requestTextBox(BuildContext context) {
   );
 }
 
-Widget _nameTextBox(BuildContext context) {
+Widget _UserEmailBox(BuildContext context, String Email) {
   final model = Provider.of<EmailSenderModel>(context);
   return Padding(
     padding: EdgeInsets.all(8.0),
     child: TextField(
       onChanged: (value) {
-        model.name = value;
+        model.Email = value;
       },
       maxLengthEnforced: true,
       enableInteractiveSelection: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
-        labelText: 'Name',
+        labelText: Email + ('(name)'),
       ),
     ),
   );
@@ -85,7 +94,7 @@ Widget _emailTextBox(BuildContext context) {
     padding: EdgeInsets.all(8.0),
     child: TextField(
       onChanged: (value) {
-        model.email = value;
+        model.mailbody = value;
       },
       maxLengthEnforced: true,
       enableInteractiveSelection: true,
@@ -96,7 +105,7 @@ Widget _emailTextBox(BuildContext context) {
   );
 }
 
-_showTextDialog(context) async {
+_showTextDialog(context, title) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -105,7 +114,7 @@ _showTextDialog(context) async {
           Container(
             width: 300.0,
             height: 300.0,
-            child: Text('送信されました'),
+            child: Text(title),
           ),
           FlatButton(
             child: Text('OK'),

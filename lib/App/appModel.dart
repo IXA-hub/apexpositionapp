@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart' as Auth;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class AppModel {
+class AppModel extends ChangeNotifier {
   // ignore: close_sinks
-  final _userStateStreamController = StreamController<UserState>();
-  Stream<UserState> get userState => _userStateStreamController.stream;
-
   UserState _state;
+  bool isLoading = false;
+  bool LoginState = false;
 
   // コンストラクタ
   AppModel() {
@@ -24,16 +24,16 @@ class AppModel {
     UserState state = UserState.noLogin;
 
     if (await isLogin()) {
-      state = UserState.okLogin;
+      LoginState = true;
+      isLoading = true;
     } else {
-      state = UserState.noLogin;
+      LoginState = false;
+      isLoading = true;
     }
-
-    _state = state;
     //loadingPage表示の為に待機
-    await Future.delayed(Duration(microseconds: 1500));
+    await Future.delayed(Duration(seconds: 3));
     //stateの更新
-    _userStateStreamController.sink.add(_state);
+    notifyListeners();
   }
 
   Future isLogin() async {

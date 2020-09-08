@@ -41,3 +41,14 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+#APIKEY
+.env
+
+#不要なファイル
+.gradleフォルダ自体
+gradleフォルダ自体
+build.gradle
+gradlew
+gradlew.bat
+local.properties
