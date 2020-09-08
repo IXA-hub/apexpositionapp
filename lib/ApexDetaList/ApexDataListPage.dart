@@ -53,7 +53,6 @@ class _apexDataCardList extends StatelessWidget {
         )).toList();
     return ListView(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       children: apexDataCard,
     );
   }

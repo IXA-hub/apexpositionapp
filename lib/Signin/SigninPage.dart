@@ -1,12 +1,11 @@
-import 'package:apexpositionapp/Account/AcccountPage.dart';
+import 'package:apexpositionapp/MainServise/MainService.dart';
+import 'package:apexpositionapp/Signin/SigninModel.dart';
 import 'package:apexpositionapp/Signup/SignupPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:provider/provider.dart';
-
-import 'SigninModel.dart';
 
 class SigninPage extends StatelessWidget {
   @override
@@ -132,8 +131,7 @@ class SigninPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AccountPage(),
-                  ),
+                      builder: (context) => SelectServicePage(true)),
                 );
               } catch (e) {
                 _showDialog(context, 'このユーザーは既に使用されています...');

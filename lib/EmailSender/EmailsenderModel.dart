@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 class EmailSenderModel extends ChangeNotifier {
   String title;
-  String email;
-  String name;
+  String mailbody;
+  String Email;
   Future emailSend() {
     FirebaseFirestore.instance.collection('email').add({
       'title': title,
-      'name': name,
-      'Email': email, //todo 登録時のemail
+      'email': Email,
+      'mailbody': mailbody, //todo 登録時のemail
       'createdAt': Timestamp.now(),
     });
   }

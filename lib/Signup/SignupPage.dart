@@ -1,11 +1,10 @@
-import 'package:apexpositionapp/Account/AcccountPage.dart';
+import 'package:apexpositionapp/MainServise/MainService.dart';
+import 'package:apexpositionapp/Signup/SignupModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:provider/provider.dart';
-
-import 'SignupModel.dart';
 
 class SignupPage extends StatelessWidget {
   @override
@@ -44,7 +43,7 @@ class SignupPage extends StatelessWidget {
     return Center(
       child: Container(
         width: 350,
-        height: 300,
+        height: 350,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
@@ -84,19 +83,14 @@ class SignupPage extends StatelessWidget {
                 },
                 obscureText: true,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      //todo
-                    },
-                    child: Text(
-                      'passwordを忘れた場合',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                ],
+              Text("Name",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              TextField(
+                decoration: InputDecoration(hintText: 'username'),
+                onChanged: (text) {
+                  model.username = text;
+                },
+                obscureText: true,
               ),
             ],
           ),
@@ -127,8 +121,10 @@ class SignupPage extends StatelessWidget {
             onTap: () async {
               try {
                 await model.emaiSignUp();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AccountPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SelectServicePage(true)));
               } catch (e) {
                 _showDialog(context, toString());
               }

@@ -5,29 +5,21 @@ import 'package:flutter/cupertino.dart';
 class SignUpModel extends ChangeNotifier {
   String email;
   String password;
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String username;
 
   Future emaiSignUp() async {
-    if (email.isEmpty) {
-      throw ('Emailを入力してください');
-    }
-
-    if (password.isEmpty) {
-      throw ('passwordを入力してください');
-    }
-
-    final User user = (await _auth.createUserWithEmailAndPassword(
+    final User user =
+        (await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     ))
-        .user;
-    //.userのemailを取得
-    final UserEmail = user.email;
+            .user;
 
     FirebaseFirestore.instance.collection('users').doc(user.uid).set(
       {
-        'Email': UserEmail,
+        'uid': user.uid,
+        'nickname': username,
+        'Email': user.email,
         'createdAt': Timestamp.now(),
       },
     );
