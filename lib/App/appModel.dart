@@ -7,7 +7,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppModel extends ChangeNotifier {
   // ignore: close_sinks
-  UserState _state;
   bool isLoading = false;
   bool LoginState = false;
 
@@ -20,8 +19,6 @@ class AppModel extends ChangeNotifier {
     // firebaseの初期化(必須)とAPIキーの読み込み。
     await Firebase.initializeApp();
     await DotEnv().load('.env');
-
-    UserState state = UserState.noLogin;
 
     if (await isLogin()) {
       LoginState = true;
@@ -42,15 +39,4 @@ class AppModel extends ChangeNotifier {
     }
     return false;
   }
-}
-
-enum UserState {
-  // 初期化中
-  waiting,
-
-  // 未ログイン
-  noLogin,
-
-  //ログイン
-  okLogin,
 }

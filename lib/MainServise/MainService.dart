@@ -1,7 +1,7 @@
-import 'package:apexpositionapp/Account/AcccountPage.dart';
 import 'package:apexpositionapp/ApexDetaList/ApexDataListPage.dart';
 import 'package:apexpositionapp/Signin/SigninPage.dart';
 import 'package:apexpositionapp/SubServise/SubServisePage.dart';
+import 'package:apexpositionapp/User/UserPage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ Widget _MainServicepPage(BuildContext context, bool isLogin) {
   final model = Provider.of<MainServiceModel>(context);
   return Stack(
     children: [
-      _tabPage(model.page, 0, isLogin ? AccountPage() : SigninPage()),
+      _tabPage(model.page, 0, isLogin ? UserPage() : SigninPage()),
       _tabPage(model.page, 1, ApexDataListPage()),
       _tabPage(model.page, 2, SubServisePage()),
     ],

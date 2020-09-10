@@ -49,10 +49,25 @@ class ApexDataListModel extends ChangeNotifier {
             gifDirectory1: doc.data()['gifDirectory1'],
             gifDirectory2: doc.data()['gifDirectory2'],
             LobaLimited: doc.data()['LobaLimited'],
-            pathfinderLimited: doc.data()['pathfinderLimited']))
+            pathfinderLimited: doc.data()['pathfinderLimited'],
+            sortState: doc.data()['sortState']))
         .toList();
     this.ApexDatas = ApexDatas;
     stopLoading();
+  }
+
+  String serchText;
+
+  sort(String x) {
+    for (int i = 0; i < ApexDatas.length; i++) {
+      bool result = ApexDatas[i].title.contains(x);
+      if (result == false) {
+        ApexDatas[i].sortState = false;
+      } else {
+        ApexDatas[i].sortState = true;
+      }
+    }
+    notifyListeners();
   }
 
   int LobaLimitedState = 0;
@@ -110,7 +125,8 @@ class ApexDataListModel extends ChangeNotifier {
                 gifDirectory1: doc.data()['gifDirectory1'],
                 gifDirectory2: doc.data()['gifDirectory2'],
                 LobaLimited: doc.data()['LobaLimited'],
-                pathfinderLimited: doc.data()['pathfinderLimited']))
+                pathfinderLimited: doc.data()['pathfinderLimited'],
+                sortState: doc.data()['sortState']))
             .toList();
         this.ApexDatas = apexdatas;
       } else {
@@ -128,7 +144,8 @@ class ApexDataListModel extends ChangeNotifier {
                 gifDirectory1: doc.data()['gifDirectory1'],
                 gifDirectory2: doc.data()['gifDirectory2'],
                 LobaLimited: doc.data()['LobaLimited'],
-                pathfinderLimited: doc.data()['pathfinderLimited']))
+                pathfinderLimited: doc.data()['pathfinderLimited'],
+                sortState: doc.data()['sortState']))
             .toList();
         this.ApexDatas = apexdatas;
       }
@@ -147,12 +164,14 @@ class ApexDataListModel extends ChangeNotifier {
                 gifDirectory1: doc.data()['gifDirectory1'],
                 gifDirectory2: doc.data()['gifDirectory2'],
                 LobaLimited: doc.data()['LobaLimited'],
-                pathfinderLimited: doc.data()['pathfinderLimited']))
+                pathfinderLimited: doc.data()['pathfinderLimited'],
+                sortState: doc.data()['sortState']))
             .toList();
         this.ApexDatas = apexdatas;
       } else {
         final docs = await FirebaseFirestore.instance
             .collection('Apex_Demodata')
+            .where('field', isEqualTo: fieldState)
             .where("LobaLimited", isEqualTo: LobaLimitedState)
             .where("pathfinderLimited", isEqualTo: pathfinderLimitedState)
             .get();
@@ -165,7 +184,8 @@ class ApexDataListModel extends ChangeNotifier {
                 gifDirectory1: doc.data()['gifDirectory1'],
                 gifDirectory2: doc.data()['gifDirectory2'],
                 LobaLimited: doc.data()['LobaLimited'],
-                pathfinderLimited: doc.data()['pathfinderLimited']))
+                pathfinderLimited: doc.data()['pathfinderLimited'],
+                sortState: doc.data()['sortState']))
             .toList();
         this.ApexDatas = apexdatas;
       }
@@ -187,7 +207,8 @@ class ApexData {
       this.gifDirectory1,
       this.gifDirectory2,
       this.LobaLimited,
-      this.pathfinderLimited});
+      this.pathfinderLimited,
+      this.sortState});
   String id;
   String title;
   String gif;
@@ -197,7 +218,7 @@ class ApexData {
   int field;
   int LobaLimited;
   int pathfinderLimited;
-
+  bool sortState;
   // ignore: non_constant_identifier_names
   dynamic toJson() => {
         'id': id,
@@ -207,6 +228,7 @@ class ApexData {
         'gifDirectory1': gifDirectory1,
         'gifDirectory2': gifDirectory2,
         'LobaLimited': LobaLimited,
-        'pathfinderLimited': pathfinderLimited
+        'pathfinderLimited': pathfinderLimited,
+        'sortState': sortState
       };
 }

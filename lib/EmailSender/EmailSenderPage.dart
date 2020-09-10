@@ -1,59 +1,51 @@
+import 'package:apexpositionapp/User/UserModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'EmailsenderModel.dart';
-
 class EmailSenderPage extends StatelessWidget {
-  final String Email;
-  EmailSenderPage(this.Email);
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<EmailSenderModel>(
-        create: (_) => EmailSenderModel(),
-        child: Consumer<EmailSenderModel>(
-          builder: (context, model, child) {
-            return Scaffold(
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _requestTextBox(context),
-                      _UserEmailBox(context, Email),
-                      _emailTextBox(context),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.info),
-                              onPressed: () {
-                                _showTextDialog(context, 'ok');
-                              }),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              floatingActionButton: FloatingActionButton.extended(
-                icon: Icon(Icons.send),
-                label: Text('送信'),
-                onPressed: () {
-                  model.emailSend();
-                  _showTextDialog(context, '送信されました');
-                },
-              ),
-            );
-          },
-        ));
+    final model = Provider.of<UserModel>(context);
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _requestTextBox(context),
+              _UserEmailBox(context),
+              _emailTextBox(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.info),
+                      onPressed: () {
+                        _showTextDialog(context, 'ok');
+                      }),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.send),
+        label: Text('送信'),
+        onPressed: () {
+          model.emailSend();
+          _showTextDialog(context, '送信されました');
+        },
+      ),
+    );
   }
 }
 
 Widget _requestTextBox(BuildContext context) {
-  final model = Provider.of<EmailSenderModel>(context);
+  final model = Provider.of<UserModel>(context);
   return Padding(
     padding: EdgeInsets.all(8.0),
     child: TextField(
@@ -64,32 +56,34 @@ Widget _requestTextBox(BuildContext context) {
       enableInteractiveSelection: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
-        labelText: 'Request',
+        labelText: 'Request title',
       ),
     ),
   );
 }
 
-Widget _UserEmailBox(BuildContext context, String Email) {
-  final model = Provider.of<EmailSenderModel>(context);
+Widget _UserEmailBox(
+  BuildContext context,
+) {
+  final model = Provider.of<UserModel>(context);
   return Padding(
     padding: EdgeInsets.all(8.0),
-    child: TextField(
+    child: TextFormField(
       onChanged: (value) {
         model.Email = value;
       },
+      initialValue: model.user.Email,
       maxLengthEnforced: true,
       enableInteractiveSelection: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
-        labelText: Email + ('(name)'),
       ),
     ),
   );
 }
 
 Widget _emailTextBox(BuildContext context) {
-  final model = Provider.of<EmailSenderModel>(context);
+  final model = Provider.of<UserModel>(context);
   return Padding(
     padding: EdgeInsets.all(8.0),
     child: TextField(

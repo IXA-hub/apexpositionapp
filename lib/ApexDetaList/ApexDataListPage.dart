@@ -39,15 +39,18 @@ class _apexDataCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = Provider.of<ApexDataListModel>(context);
     final List<Card> apexDataCard = model.ApexDatas.map((apexData) => Card(
-          child: ListTile(
-            title: Text(apexData.title),
-            trailing: IconButton(
-              icon: Icon(Icons.movie),
-              onPressed: () async {
-                String url = await model.getGif(apexData.gifDirectory1,
-                    apexData.gifDirectory2, apexData.gif);
-                _showGifMovie(context, url);
-              },
+          child: Visibility(
+            visible: apexData.sortState,
+            child: ListTile(
+              title: Text(apexData.title),
+              trailing: IconButton(
+                icon: Icon(Icons.movie),
+                onPressed: () async {
+                  String url = await model.getGif(apexData.gifDirectory1,
+                      apexData.gifDirectory2, apexData.gif);
+                  _showGifMovie(context, url);
+                },
+              ),
             ),
           ),
         )).toList();
@@ -87,20 +90,20 @@ Widget _apexDataList(BuildContext context) {
 }
 
 Widget _serchBar(BuildContext context, TextEditingController searchController) {
+  final model = Provider.of<ApexDataListModel>(context);
   return Container(
     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
     child: TextField(
-      controller: searchController,
       decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: '検索用',
           suffixIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                //todo
+                model.sort(model.serchText);
               })),
       onChanged: (value) {
-        String text = value;
+        model.serchText = value;
       },
     ),
   );

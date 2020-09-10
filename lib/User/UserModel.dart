@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-class AccountModel extends ChangeNotifier {
+class UserModel extends ChangeNotifier {
   int page = 0;
 
   setPage(int index) {
@@ -19,6 +19,18 @@ class AccountModel extends ChangeNotifier {
     User user = User.doc(doc);
     this.user = user;
     notifyListeners();
+  }
+
+  String title;
+  String mailbody;
+  String Email;
+  Future emailSend() {
+    FirebaseFirestore.instance.collection('email').add({
+      'title': title,
+      'email': Email,
+      'mailbody': mailbody, //todo 登録時のemail
+      'createdAt': Timestamp.now(),
+    });
   }
 }
 
