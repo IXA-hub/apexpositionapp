@@ -11,13 +11,13 @@ class LoadingPage extends StatelessWidget {
     return number;
   }
 
-  final List<Widget> LoadingAnimation = [
-    SpinKitCircle(color: Colors.red),
-    SpinKitChasingDots(color: Colors.red),
-    SpinKitDoubleBounce(
-      color: Colors.red,
-    ),
-  ];
+//  final List<Widget> LoadingAnimation = [
+//    SpinKitCircle(color: Colors.red),
+//    SpinKitChasingDots(color: Colors.red),
+//    SpinKitDoubleBounce(
+//      color: Colors.red,
+//    ),
+//  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,11 @@ class LoadingPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [LoadingAnimation[RandomNumber()]],
+          children: [
+            SpinKitCircle(
+              color: Colors.blueAccent,
+            ),
+          ],
         ),
       ),
     );

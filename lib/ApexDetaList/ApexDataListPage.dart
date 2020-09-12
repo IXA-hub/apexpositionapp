@@ -41,15 +41,33 @@ class _apexDataCardList extends StatelessWidget {
     final List<Card> apexDataCard = model.ApexDatas.map((apexData) => Card(
           child: Visibility(
             visible: apexData.sortState,
-            child: ListTile(
-              title: Text(apexData.title),
-              trailing: IconButton(
-                icon: Icon(Icons.movie),
-                onPressed: () async {
-                  String url = await model.getGif(apexData.gifDirectory1,
-                      apexData.gifDirectory2, apexData.gif);
-                  _showGifMovie(context, url);
-                },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueGrey,
+                    offset: Offset(0.0, 0.0),
+                    blurRadius: 5.0,
+                  ),
+                  BoxShadow(
+                    color: Colors.blueGrey,
+                    offset: Offset(0.0, -0.0),
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+              child: ListTile(
+                title: Text(apexData.title),
+                trailing: IconButton(
+                  icon: Icon(Icons.movie),
+                  onPressed: () async {
+                    String url = await model.getGif(apexData.gifDirectory1,
+                        apexData.gifDirectory2, apexData.gif);
+                    _showGifMovie(context, url);
+                  },
+                ),
               ),
             ),
           ),
@@ -74,15 +92,64 @@ Widget _apexDataList(BuildContext context) {
             children: [
               SizedBox(height: 40),
               _serchBar(context, searchController),
-              _apexDataCardList(),
+              model.ApexDatas.length == 0
+                  ? Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 65,
+                            width: 325,
+                            child: Center(
+                              child: Text(
+                                '該当するデータはありません',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blueGrey,
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 10.0,
+                                ),
+                                BoxShadow(
+                                  color: Colors.blueGrey,
+                                  offset: Offset(0.0, -0.0),
+                                  blurRadius: 10.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          FloatingActionButton(
+                            heroTag: 'refresh',
+                            backgroundColor: Colors.white70,
+                            child: Icon(
+                              Icons.refresh,
+                              color: Colors.blueAccent,
+                            ),
+                            onPressed: () {
+                              model.fetchApexData();
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  : _apexDataCardList(),
             ],
           ),
         ),
       ),
     ),
     floatingActionButton: FloatingActionButton(
+        heroTag: 'ApexDataList',
+        backgroundColor: Colors.blueAccent,
         child: Text('Sort'),
-        backgroundColor: Colors.blue,
         onPressed: () {
           model.changePage();
         }),
@@ -95,8 +162,9 @@ Widget _serchBar(BuildContext context, TextEditingController searchController) {
     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
     child: TextField(
       decoration: InputDecoration(
+          hintText: '空白検索でリセット',
           border: OutlineInputBorder(),
-          labelText: '検索用',
+          labelText: '検索',
           suffixIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
@@ -109,7 +177,6 @@ Widget _serchBar(BuildContext context, TextEditingController searchController) {
   );
 }
 
-//todo offstageで実装
 _showGifMovie(context, url) async {
   await showDialog(
     context: context,
@@ -175,12 +242,7 @@ Widget _sortBox(BuildContext context) {
                       activeFgColor: Colors.white,
                       inactiveBgColor: Colors.grey,
                       inactiveFgColor: Colors.white,
-                      labels: ['', '', ''],
-                      icons: [
-                        Icons.all_inclusive,
-                        Icons.android,
-                        Icons.g_translate
-                      ],
+                      labels: ['ALL', 'Kings', 'Edge'],
                       iconSize: 30.0,
                       activeBgColors: [Colors.blue, Colors.pink, Colors.purple],
                       onToggle: (index) {
@@ -242,8 +304,8 @@ Widget _sortBox(BuildContext context) {
                     ),
                     SizedBox(height: 5),
                     IconButton(
-                      color: Colors.blue,
-                      icon: Icon(Icons.search),
+                      icon: Icon(Icons.search_rounded),
+                      color: Colors.blueAccent,
                       onPressed: () {
                         model.changePage();
                         model.SerchApexData();

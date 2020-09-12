@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 import 'MainServiceModel.dart';
 
-class SelectServicePage extends StatelessWidget {
+class MainServicePage extends StatelessWidget {
   final bool isLogin;
-  SelectServicePage(this.isLogin);
+  MainServicePage(this.isLogin);
   final List<Widget> _tabIcon = [
     Icon(Icons.account_circle, size: 30, color: Colors.white),
     Icon(Icons.youtube_searched_for, size: 30, color: Colors.white),

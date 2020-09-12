@@ -131,7 +131,7 @@ class SigninPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SelectServicePage(true)),
+                      builder: (context) => MainServicePage(true)),
                 );
               } catch (e) {
                 _showDialog(context, 'このユーザーは既に使用されています...');

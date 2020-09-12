@@ -124,7 +124,7 @@ class SignupPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SelectServicePage(true)));
+                        builder: (context) => MainServicePage(true)));
               } catch (e) {
                 _showDialog(context, toString());
               }

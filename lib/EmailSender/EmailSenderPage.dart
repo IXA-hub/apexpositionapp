@@ -1,4 +1,5 @@
 import 'package:apexpositionapp/User/UserModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class EmailSenderPage extends StatelessWidget {
                   IconButton(
                       icon: Icon(Icons.info),
                       onPressed: () {
-                        _showTextDialog(context, 'ok');
+                        _showTextDialog(context);
                       }),
                 ],
               )
@@ -33,11 +34,12 @@ class EmailSenderPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'UserPage',
         icon: Icon(Icons.send),
         label: Text('送信'),
         onPressed: () {
           model.emailSend();
-          _showTextDialog(context, '送信されました');
+          _showTextDialogEmailSend(context);
         },
       ),
     );
@@ -99,7 +101,7 @@ Widget _emailTextBox(BuildContext context) {
   );
 }
 
-_showTextDialog(context, title) async {
+_showTextDialog(context) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -107,11 +109,102 @@ _showTextDialog(context, title) async {
         actions: <Widget>[
           Container(
             width: 300.0,
-            height: 300.0,
-            child: Text(title),
+            height: 200.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'お問い合わせ',
+                      style: TextStyle(fontSize: 25),
+                    )
+                  ],
+                ),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'アプリに対するお問い合わせや、',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      Text(
+                        '追加希望の機能やデータなどの、',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      Text(
+                        'ご意見お待ちしております！',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           FlatButton(
             child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+_showTextDialogEmailSend(context) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        actions: <Widget>[
+          Container(
+            width: 300.0,
+            height: 200.0,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ご意見ありがとうございます！',
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'ユーザー様のフィードバックは全て、',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      Text(
+                        '確認させていただいております！',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      Text(
+                        'これからもアプリの機能改善に、',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      Text(
+                        '尽力いたします。m(_ _)m',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FlatButton(
+            child: Text('正常に送信されました!'),
             onPressed: () {
               Navigator.of(context).pop();
             },

@@ -36,7 +36,7 @@ class AccountPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            //　todo Text(model.user.username) ここがなぜかエラーになる。値は存在する。
+            // todo Text(model.user.username),
             //同様の使い方のEmailはセーフ
           ],
         ),

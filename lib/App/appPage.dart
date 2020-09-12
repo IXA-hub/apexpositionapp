@@ -15,10 +15,9 @@ class App extends StatelessWidget {
         child: Consumer<AppModel>(
           builder: (context, model, child) {
             return Scaffold(
-              body: model.isLoading
-                  ? SelectServicePage(model.LoginState)
-                  : LoadingPage(),
-            );
+                body: model.isLoading
+                    ? LoadingPage()
+                    : MainServicePage(model.LoginState));
           },
         ),
       ),
