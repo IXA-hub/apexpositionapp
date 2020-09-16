@@ -13,10 +13,15 @@ class UserPage extends StatelessWidget {
         create: (_) => UserModel()..getUser(),
         // ignore: missing_return
         child: Consumer<UserModel>(builder: (context, model, child) {
+          if (model.user == null) {
+            return Center(child: CircularProgressIndicator());
+          }
           return DefaultTabController(
             length: 2,
             child: Scaffold(
               appBar: AppBar(
+                title: Text(model.user.nickname),
+                //同様の使い方のEmailはセーフ,
                 bottom: TabBar(
                   onTap: (index) {
                     model.setPage(index);

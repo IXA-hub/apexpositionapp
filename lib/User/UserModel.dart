@@ -11,15 +11,64 @@ class UserModel extends ChangeNotifier {
   }
 
   bool x = true;
+  String userID = '';
   User user;
   Future getUser() async {
-    String uid = FirebaseAuth.instance.currentUser.uid;
+    userID = FirebaseAuth.instance.currentUser.uid;
     final doc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        await FirebaseFirestore.instance.collection('users').doc(userID).get();
     User user = User.doc(doc);
     this.user = user;
     notifyListeners();
   }
+
+  String currentPassword = '';
+  String newPassword = '';
+  bool refleshpasswordBoxState = true;
+
+  changeefleshpasswordBoxState(bool x) {
+    refleshpasswordBoxState = x;
+    notifyListeners();
+  }
+
+  Future updatePassword() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await firebaseUser
+        .reauthenticateWithCredential(EmailAuthProvider.credential(
+      email: firebaseUser.email,
+      password: currentPassword,
+    ));
+    await firebaseUser.updatePassword(newPassword);
+  }
+
+  bool nicknameBoxState = true;
+  String newNickName = '';
+  changeNicknameBoxState(bool x) {
+    nicknameBoxState = x;
+    notifyListeners();
+  }
+
+  Future changeNickname() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .update({'nickname': newNickName});
+    await getUser();
+  }
+
+  bool deleteUserBoxState = true;
+  String deleteCheck = '';
+  deleteCheckchange(String x) {
+    deleteCheck = x;
+    notifyListeners();
+  }
+
+  deleteUserBoxStatechange(bool x) {
+    deleteUserBoxState = x;
+    notifyListeners();
+  }
+
+  Future deleteUsr() async {}
 
   String title;
   String mailbody;
@@ -28,7 +77,7 @@ class UserModel extends ChangeNotifier {
     FirebaseFirestore.instance.collection('email').add({
       'title': title,
       'email': Email,
-      'mailbody': mailbody, //todo 登録時のemail
+      'mailbody': mailbody,
       'createdAt': Timestamp.now(),
     });
   }
@@ -36,12 +85,12 @@ class UserModel extends ChangeNotifier {
 
 class User {
   String id;
-  String username;
+  String nickname;
   String Email;
 
   User.doc(DocumentSnapshot doc) {
     this.id = doc.id;
-    this.username = doc.data()['username'];
+    this.nickname = doc.data()['nickname'];
     this.Email = doc.data()['Email'];
   }
 }
