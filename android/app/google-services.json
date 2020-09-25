@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332220433295",
+    "firebase_url": "https://apexpositionapp.firebaseio.com",
+    "project_id": "apexpositionapp",
+    "storage_bucket": "apexpositionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332220433295:android:32015a4c13c831ca2281fa",
+        "android_client_info": {
+          "package_name": "com.example.apexpositionapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332220433295-e0cgr5pb8mtrdkdr7hpfnu117b7otoqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7OIecANWA_u-P83_DBqixyk4ZEyv4XPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332220433295-e0cgr5pb8mtrdkdr7hpfnu117b7otoqf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "332220433295-mdj83jji8mgu8qav5drnirh8tf3qlus7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.apexpositionapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
