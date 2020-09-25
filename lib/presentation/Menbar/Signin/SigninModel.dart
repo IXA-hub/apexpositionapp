@@ -6,10 +6,10 @@ class SignInModel extends ChangeNotifier {
   String password;
 
   Future emailSignIn() async {
-    if (email.isEmpty) {
+    if (email == null) {
       throw ('メールアドレスを入力してください');
     }
-    if (password.isEmpty) {
+    if (password == null) {
       throw ('パスワードを入力してください');
     }
 
@@ -20,17 +20,6 @@ class SignInModel extends ChangeNotifier {
       );
     } catch (e) {
       throw _returnErrorContexts(e);
-    }
-  }
-
-  String userEmail = '';
-  Future sendPasswordResetEmail() async {
-    try {
-      final Auth = FirebaseAuth.instance;
-      userEmail = Auth.currentUser.email;
-      await Auth.sendPasswordResetEmail(email: userEmail);
-    } catch (e) {
-      throw 'アカウントが登録されていません';
     }
   }
 

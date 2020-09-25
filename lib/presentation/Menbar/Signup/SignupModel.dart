@@ -12,7 +12,7 @@ class SignUpModel extends ChangeNotifier {
     String patternNumber = r"(\d+)";
     RegExp checkPasswordIsNumber = new RegExp(patternNumber);
     String patternString = r"([a-z])";
-    RegExp checkPasswordisString = new RegExp(patternString);
+    RegExp checkPasswordIsString = new RegExp(patternString);
 
     if (email.isEmpty) {
       throw ('Emailを入力してください');
@@ -30,7 +30,7 @@ class SignUpModel extends ChangeNotifier {
       throw ('パスワードは8文字以上で設定してください');
     } else if (checkPasswordIsNumber.hasMatch(password) == false) {
       throw ('パスワードに最低一つ数値を入力してください');
-    } else if (checkPasswordisString.hasMatch(password) == false) {
+    } else if (checkPasswordIsString.hasMatch(password) == false) {
       throw ('パスワードは最低一つ文字を入力してください');
     }
 

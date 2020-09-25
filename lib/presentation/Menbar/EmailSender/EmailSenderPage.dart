@@ -38,8 +38,12 @@ class EmailSenderPage extends StatelessWidget {
         icon: Icon(Icons.send),
         label: Text('送信'),
         onPressed: () {
-          model.emailSend();
-          _showTextDialogEmailSend(context);
+          try {
+            model.emailSend();
+            _showTextDialogEmailSend(context);
+          } catch (e) {
+            _showDialog(context, e.toString());
+          }
         },
       ),
     );
@@ -90,7 +94,7 @@ Widget _emailTextBox(BuildContext context) {
     padding: EdgeInsets.all(8.0),
     child: TextField(
       onChanged: (value) {
-        model.mailbody = value;
+        model.mailBody = value;
       },
       maxLengthEnforced: true,
       enableInteractiveSelection: true,
@@ -205,6 +209,28 @@ _showTextDialogEmailSend(context) async {
           ),
           FlatButton(
             child: Text('正常に送信されました!'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future _showDialog(
+  BuildContext context,
+  String title,
+) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('ok'),
             onPressed: () {
               Navigator.of(context).pop();
             },

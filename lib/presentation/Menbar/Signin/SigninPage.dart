@@ -1,3 +1,4 @@
+import 'package:apexpositionapp/presentation/Menbar/SendPasswordResetEmail/sendPasswordResetEmailPage.dart';
 import 'package:apexpositionapp/presentation/Menbar/Signup/SignupPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,12 @@ class SigninPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      model.sendPasswordResetEmail();
+                    onTap: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SendPasswordResetEmailPage()));
                     },
                     child: Text(
                       'passwordを忘れた場合',

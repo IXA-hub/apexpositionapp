@@ -21,7 +21,7 @@ class DeveloperPage extends StatelessWidget {
               ),
               Container(
                 width: 350,
-                height: 700,
+                height: 650,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
@@ -126,7 +126,7 @@ class DeveloperPage extends StatelessWidget {
                             fontSize: 18,
                           )),
                       SizedBox(
-                        height: 60,
+                        height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

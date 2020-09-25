@@ -45,14 +45,6 @@ class AppModel extends ChangeNotifier {
     return false;
   }
 
-  int page = 0;
-
-  setPage(int index) {
-    page = index;
-    notifyListeners();
-  }
-
-  bool x = true;
   String userID = '';
   Menbar menbar;
   Future getUser() async {
@@ -61,69 +53,37 @@ class AppModel extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('users').doc(userID).get();
     Menbar menbar = Menbar.doc(doc);
     this.menbar = menbar;
+    Email = menbar.Email;
     notifyListeners();
   }
 
-  String currentPassword = '';
-  String newPassword = '';
-  bool refleshpasswordBoxState = true;
+  String newNickName;
+  Future changeNickName() async {
+    if (newNickName == null) {
+      throw ('usernameを入力してください');
+    }
 
-  changeefleshpasswordBoxState(bool x) {
-    refleshpasswordBoxState = x;
-    notifyListeners();
-  }
-
-  Future updatePassword() async {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    await firebaseUser
-        .reauthenticateWithCredential(EmailAuthProvider.credential(
-      email: firebaseUser.email,
-      password: currentPassword,
-    ));
-    await firebaseUser.updatePassword(newPassword);
-  }
-
-  bool nicknameBoxState = true;
-  String newNickName = '';
-  changeNicknameBoxState(bool x) {
-    nicknameBoxState = x;
-    notifyListeners();
-  }
-
-  Future changeNickname() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .update({'nickname': newNickName});
+    newNickName = null;
     await getUser();
   }
 
-  bool deleteUserBoxState = true;
-  String deleteCheckPassword = '';
-  String deleteCheck = '';
-  deleteCheckchange(String x) {
-    deleteCheck = x;
-    notifyListeners();
-  }
-
-  deleteCheckchangePassword(String x) {
-    deleteCheckPassword = x;
-  }
-
-  deleteUserBoxStatechange(bool x) {
-    deleteUserBoxState = x;
-    notifyListeners();
-  }
-
+  String deleteCheckPassword;
   Future deleteUser() async {
-    print(deleteCheckPassword);
+    if (deleteCheckPassword == null) {
+      throw ('パスワードを入力してください');
+    }
+
     final firebaseUser = FirebaseAuth.instance.currentUser;
     await firebaseUser
         .reauthenticateWithCredential(EmailAuthProvider.credential(
       email: firebaseUser.email,
       password: deleteCheckPassword,
     ));
-    //todo LoadingPageを挟む　& リファクタ
+    isLoading = true;
     await firebaseUser.delete();
     await FirebaseFirestore.instance
         .collection('users')
@@ -133,22 +93,44 @@ class AppModel extends ChangeNotifier {
   }
 
   String title;
-  String mailbody;
+  String mailBody;
   String Email;
   Future emailSend() {
+    if (title == null || title == '') {
+      throw ('タイトルを入力してください');
+    }
+    if (mailBody == null || title == '') {
+      throw ('メール内容が空です');
+    }
+    if (Email == null || Email == '') {
+      throw ('メールアドレスを入力してください');
+    }
+
     FirebaseFirestore.instance.collection('email').add({
       'title': title,
       'email': Email,
-      'mailbody': mailbody,
+      'mailbody': mailBody,
       'createdAt': Timestamp.now(),
     });
   }
 
-  String userEmail = '';
+  String userEmail;
   Future sendPasswordResetEmail() async {
-    final Auth = FirebaseAuth.instance;
-    userEmail = Auth.currentUser.email;
-    await Auth.sendPasswordResetEmail(email: userEmail);
+    final firebaseUser = FirebaseAuth.instance;
+    userEmail = firebaseUser.currentUser.email;
+    await firebaseUser.sendPasswordResetEmail(email: userEmail);
+  }
+
+  bool deleteUserBoxState = true;
+  String deleteCheck = '';
+  deleteCheckChange(String x) {
+    deleteCheck = x;
+    notifyListeners();
+  }
+
+  deleteUserBoxStateChange(bool x) {
+    deleteUserBoxState = x;
+    notifyListeners();
   }
 
   bool deleteuserNextBotton = true;
@@ -160,6 +142,26 @@ class AppModel extends ChangeNotifier {
 
   deleteuserRunButtonChange(bool x) {
     deleteuserRunButton = x;
+    notifyListeners();
+  }
+
+  bool reFleshPasswordBoxState = true;
+
+  changeefleshpasswordBoxState(bool x) {
+    reFleshPasswordBoxState = x;
+    notifyListeners();
+  }
+
+  bool nicknameBoxState = true;
+  changeNicknameBoxState(bool x) {
+    nicknameBoxState = x;
+    notifyListeners();
+  }
+
+  int page = 0;
+
+  setPage(int index) {
+    page = index;
     notifyListeners();
   }
 }

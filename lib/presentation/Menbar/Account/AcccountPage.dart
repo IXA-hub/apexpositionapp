@@ -39,7 +39,7 @@ class AccountPage extends StatelessWidget {
                     icon: Icon(Icons.settings_applications),
                     onPressed: () {
                       model.changeefleshpasswordBoxState(true);
-                      model.deleteUserBoxStatechange(true);
+                      model.deleteUserBoxStateChange(true);
                       model.changeNicknameBoxState(false);
                     },
                   ),
@@ -47,7 +47,7 @@ class AccountPage extends StatelessWidget {
                       icon: Icon(Icons.vpn_key),
                       onPressed: () {
                         model.changeNicknameBoxState(true);
-                        model.deleteUserBoxStatechange(true);
+                        model.deleteUserBoxStateChange(true);
                         model.changeefleshpasswordBoxState(false);
                       }),
                   IconButton(
@@ -55,7 +55,7 @@ class AccountPage extends StatelessWidget {
                     onPressed: () {
                       model.changeNicknameBoxState(true);
                       model.changeefleshpasswordBoxState(true);
-                      model.deleteUserBoxStatechange(false);
+                      model.deleteUserBoxStateChange(false);
                     },
                   ),
                 ],
@@ -99,7 +99,6 @@ class AccountPage extends StatelessWidget {
                                   icon: Icon(Icons.refresh),
                                   onPressed: () {
                                     model.changeNicknameBoxState(true);
-                                    model.changeNickname();
                                   }),
                             ],
                           ),
@@ -116,10 +115,14 @@ class AccountPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  model.changeNickname();
+                                onTap: () async {
                                   model.changeNicknameBoxState(true);
-                                  _showDialog(context);
+                                  try {
+                                    await model.changeNickName();
+                                    _showDialog(context, '更新成功しました。');
+                                  } catch (e) {
+                                    _showDialog(context, e.toString());
+                                  }
                                 },
                                 child: Text(
                                   '更新',
@@ -136,7 +139,7 @@ class AccountPage extends StatelessWidget {
               ),
             ),
             Offstage(
-              offstage: model.refleshpasswordBoxState,
+              offstage: model.reFleshPasswordBoxState,
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(32.0),
@@ -178,9 +181,10 @@ class AccountPage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              model.updatePassword();
+                              model.sendPasswordResetEmail();
                               model.changeefleshpasswordBoxState(true);
-                              _showDialog(context);
+                              _showDialog(
+                                  context, 'メールの送信には20秒ほどかかる場合があります。送信完了！');
                             },
                             child: Text(
                               '更新の為のメールを送信します',
@@ -231,7 +235,7 @@ class AccountPage extends StatelessWidget {
                               IconButton(
                                   icon: Icon(Icons.refresh),
                                   onPressed: () {
-                                    model.deleteUserBoxStatechange(true);
+                                    model.deleteUserBoxStateChange(true);
                                     model.deleteuserNextBottonChange(true);
                                     model.deleteuserRunButtonChange(false);
                                   }),
@@ -251,7 +255,7 @@ class AccountPage extends StatelessWidget {
                                       decoration:
                                           InputDecoration(hintText: 'password'),
                                       onChanged: (text) {
-                                        model.deleteCheckchangePassword(text);
+                                        model.deleteCheckPassword = text;
                                       },
                                     ),
                                     Padding(
@@ -287,7 +291,7 @@ class AccountPage extends StatelessWidget {
                                           hintText: model.menbar.nickname +
                                               '(名前を入力で削除可能)'),
                                       onChanged: (text) {
-                                        model.deleteCheckchange(text);
+                                        model.deleteCheckChange(text);
                                       },
                                     ),
                                     Row(
@@ -299,14 +303,14 @@ class AccountPage extends StatelessWidget {
                                               model.deleteCheck,
                                           child: GestureDetector(
                                             onTap: () {
-                                              model.deleteUserBoxStatechange(
+                                              model.deleteUserBoxStateChange(
                                                   true);
                                               model.deleteuserNextBottonChange(
                                                   true);
                                               model.deleteuserRunButtonChange(
                                                   false);
                                               model.deleteUser();
-                                              _showDialog(context);
+                                              _successDialog(context);
                                             },
                                             child: Text(
                                               '削除(この操作は取り消せません)',
@@ -353,7 +357,7 @@ class getClipper extends CustomClipper<Path> {
   }
 }
 
-_showDialog(context) async {
+_successDialog(context) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -368,6 +372,28 @@ _showDialog(context) async {
                 Navigator.of(context).pop();
               },
             ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future _showDialog(
+  BuildContext context,
+  String title,
+) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ],
       );
